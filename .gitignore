@@ -1,0 +1,25 @@
+# IntelliJ IDEA / JetBrains
+.idea/
+*.iml
+/shelf/
+/workspace.xml
+/httpRequests/
+/mavenHomeManager.xml
+/dataSources/
+/dataSources.local.xml
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backup / temp files
+*.swp
+*.swo
+~$*
