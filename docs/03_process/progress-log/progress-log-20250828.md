@@ -2,6 +2,8 @@
 
 **작성자**: [왕택준](https://github.com/TJK98)
 
+---
+
 ## 프로젝트 아이디어 및 개요 문서화
 
 ### 팀명: **AId (에이드)**
@@ -117,3 +119,12 @@ docs/
 * `.github/ISSUE_TEMPLATE/` 이슈 템플릿 추가
 * `PULL_REQUEST_TEMPLATE.md` 추가 → PR 시 자동 적용
 *  이슈 라벨 전략 수립
+
+## 정리
+
+* **프로젝트 아이디어/스토리텔링/브랜딩** 정리 완료 (팀명 AId, 프로젝트명 trAIn, 플랫폼명 Dialogym)
+* **Organization 및 Repository 구조** 정의 (`trAIn-frontend`, `trAIn-backend`, `Dialogym-docs`)
+* **브랜치 전략** 수립: `main`/`dev` + Git Flow, 브랜치 보호 규칙 설정
+* **프론트엔드/백엔드 초기 세팅** 완료 (React+Vite, Spring Boot+MariaDB)
+* **문서 레포지토리 구조화** 및 기본 파일 추가 (`CONTRIBUTING.md`, `.gitignore`)
+* **workflow 구성**: 이슈 템플릿, PR 템플릿, 라벨 전략 도입
