@@ -2,11 +2,11 @@
 name: "문서 작업 (Documentation)"
 about: "문서의 생성, 수정, 삭제 등 모든 관련 작업을 요청합니다."
 title: "[Docs] "
-labels: ["docs"]
+labels: ["docs", "status: todo", "priority: P2"]
 assignees: ""
 ---
 
-# Documentation
+# Docs
 > 제목 규칙: **[Docs]: 상세 내용 ** 예: [Docs]: README.md 수정
 
 ## 작업 종류 (Type of Request)

@@ -2,11 +2,11 @@
 name: "코드 리팩토링 (Refactoring)"
 about: "기능 변경 없이 코드 구조 또는 품질을 개선합니다."
 title: "[Refactor] "
-labels: ["refactor"]
+labels: ["refactor", "status: todo", "priority: P2"]
 assignees: ""
 ---
 
-# Refactoring
+# Refactor
 > 제목 규칙: **[Refactor]: 상세 내용 ** 예: [Refactor]: 로그인 기능 코드 구조 개선
 
 ## 리팩토링 대상 (Scope)
