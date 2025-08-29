@@ -2,11 +2,11 @@
 name: "버그 리포트 (Bug report)"
 about: "재현 가능한 정보를 포함하여 버그를 보고합니다."
 title: "[Bug] "
-labels: ["bug"]
+labels: ["bug", "status: todo", "priority: P0"]
 assignees: ""
 ---
 
-# Bug report
+# Bug
 > 제목 규칙: **[Bug]: 상세 내용 ** 예: [Bug]: 로그인 기능 버그 보고
 
 ## 버그 요약 (Summary)

@@ -2,11 +2,11 @@
 name: "기능 제안 (Feature Request)"
 about: "프로젝트에 추가할 새로운 기능을 제안합니다."
 title: "[Feat] "
-labels: ["feature"]
+labels: ["feature", "status: todo", "priority: P1"]
 assignees: ''
 ---
 
-# Feature Request
+# Feature
 > 제목 규칙: **[Feat]: 상세 내용 ** 예: [Feat]: 로그인 기능 구현
 
 ## 제안 배경 (Background)
