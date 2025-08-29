@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: 일반 문의 (General Questions)
-    url: https://github.com/Vibe-Fiction/AI-dea/discussions
+    url: https://github.com/orgs/AI-d/discussions
     about: 버그나 기능 제안이 아닌 일반적인 질문은 Discussions에 작성해주세요.
+  - name: 보안 이슈 비공개 신고 (Security Disclosure)
+    url: mailto:wtj1998@naver.com
+    about: 심각한 보안 취약점은 공개 저장소에 작성하지 말고 이 메일로 비공개 신고해주세요.
