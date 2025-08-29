@@ -185,6 +185,14 @@
 * **권장 조합**: `priority:P2|P1` + `status:*`
 * **예시**: “Gradle 버전 업데이트”, “ESLint/Prettier 설정 통일”
 
+### chore
+
+* **의도**: 코드 기능 추가·수정이 아닌 **프로젝트 관리성 작업**
+* **포함**: `.github` 디렉토리 수정, 워크플로 업데이트, 린트/포맷팅 설정, CI 환경 변수 관리
+* **제외**: 기능 구현(→ feature/enhancement), 버그 수정(→ bug)
+* **권장 조합**: `priority:P2` + `status:*` (+ 필요한 `area:*`)
+* **예시**: “GitHub Actions 워크플로 수정”, “Prettier 설정 업데이트”
+
 ### ci-cd
 
 * **의도**: 빌드/테스트/배포 파이프라인 자동화 작업
@@ -315,6 +323,10 @@
 
 * `docs`, `priority: P2`, `status: done`
 
-8. **v1.0.0 릴리즈**
+8**CI 워크플로 수정 및 코드 포맷터 설정 변경**
+
+* `chore`, `priority: P2`, `status: todo`
+
+9**v1.0.0 릴리즈**
 
 * `release`, `area: devops`, `priority: P1`, `status: in progress`
