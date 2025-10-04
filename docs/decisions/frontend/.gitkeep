@@ -1,0 +1,11 @@
+// decisions/frontend/
+// 프론트엔드 관련 ADR이 위치합니다.
+// - 상태관리, UI 프레임워크 선택 등
+// - 형식: NNN-title.md
+// 프론트엔드 기술 의사결정을 기록합니다.
+//
+// 예시 파일:
+// - 001-state-management.md
+// - 002-ui-framework.md
+// - 003-routing-strategy.md
+// - 004-styling-approach.md

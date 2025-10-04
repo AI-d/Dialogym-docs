@@ -1,0 +1,10 @@
+// design/infrastructure/
+// 인프라 설계 문서가 위치합니다.
+// - 네트워크 구성도
+// - 배포 아키텍처
+// 시스템 운영 환경과 배포 구조를 정의합니다.
+//
+// 예시 파일:
+// - network-diagram.png
+// - deployment-architecture.png
+// - ci-cd-pipeline.png

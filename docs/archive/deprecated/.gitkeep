@@ -1,0 +1,10 @@
+// archive/deprecated/
+// 폐기된 문서가 위치합니다.
+// - 구버전 아키텍처
+// - 사용하지 않는 설계 문서
+// 더 이상 사용하지 않는 문서를 보관합니다.
+//
+// 예시 파일:
+// - old-architecture-v1.md
+// - deprecated-api-spec.md
+// - legacy-deployment-guide.md

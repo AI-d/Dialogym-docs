@@ -1,0 +1,10 @@
+// meetings/general/
+// 일반 팀 회의록이 위치합니다.
+// - 형식: YYYY-MM-DD-meeting-topic.md
+// - 스프린트 외 회의 기록
+// 프로젝트 진행 중 일반 회의 내용을 기록합니다.
+//
+// 예시 파일:
+// - 2025-10-01-kickoff-meeting.md
+// - 2025-10-05-tech-discussion.md
+// - 2025-10-15-deployment-planning.md

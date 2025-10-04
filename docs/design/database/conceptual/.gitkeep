@@ -1,0 +1,9 @@
+// design/database/conceptual/
+// 개념 ERD가 위치합니다.
+// - 엔티티와 관계만 표현
+// - 비즈니스 요구사항 중심
+// 데이터베이스의 개념적 구조를 정의합니다.
+//
+// 예시 파일:
+// - conceptual-erd.png
+// - entity-relationship.md

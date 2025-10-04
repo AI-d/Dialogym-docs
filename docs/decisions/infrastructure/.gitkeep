@@ -1,0 +1,11 @@
+// decisions/infrastructure/
+// 인프라 관련 ADR이 위치합니다.
+// - 배포 플랫폼, CI/CD, 모니터링 전략 등
+// - 형식: NNN-title.md
+// 인프라 기술 의사결정을 기록합니다.
+//
+// 예시 파일:
+// - 001-deployment-platform.md
+// - 002-ci-cd-pipeline.md
+// - 003-monitoring-strategy.md
+// - 004-containerization.md

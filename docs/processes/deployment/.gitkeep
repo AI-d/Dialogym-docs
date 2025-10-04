@@ -1,0 +1,10 @@
+// processes/deployment/
+// 배포 프로세스 문서가 위치합니다.
+// - 배포 절차
+// - 롤백 프로시저
+// 시스템 배포와 운영 방법을 정의합니다.
+//
+// 예시 파일:
+// - deployment-process.md
+// - rollback-procedure.md
+// - production-checklist.md
