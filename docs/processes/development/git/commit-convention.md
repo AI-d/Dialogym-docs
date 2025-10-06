@@ -8,7 +8,7 @@
 
 **문서 버전 (Version)**: v0.1
 
-**문서 상태 (Status)**: Approved
+**문서 상태 (Status)**: Draft
 
 ---
 
@@ -78,17 +78,35 @@ Breaking Changes: (있는 경우)
 
 ## 타입 정의
 
-| 타입         | 설명              | 예시                                |
-|------------|-----------------|-----------------------------------|
-| `feat`     | 새로운 기능 추가       | `TRAIN-12 feat: 소셜 로그인 추가`        |
-| `fix`      | 버그 수정           | `TRAIN-23 fix: 메모리 누수 해결`         |
-| `refactor` | 리팩토링 (기능 변화 없음) | `TRAIN-34 refactor: 유저 서비스 구조 개선` |
-| `perf`     | 성능 개선           | `TRAIN-45 perf: DB 쿼리 최적화`        |
-| `style`    | 코드 스타일 변경       | `TRAIN-56 style: 린트 규칙 적용`        |
-| `docs`     | 문서 수정           | `TRAIN-67 docs: API 문서 업데이트`      |
-| `test`     | 테스트 추가/수정       | `TRAIN-78 test: 로그인 테스트 추가`       |
-| `chore`    | 빌드/설정 변경        | `TRAIN-89 chore: 의존성 업데이트`        |
-| `ci`       | CI/CD 설정 변경     | `TRAIN-90 ci: 배포 스크립트 개선`         |
+| 타입         | 설명                 | 예시                                 |
+|------------|--------------------|------------------------------------|
+| `feat`     | 새로운 기능 추가          | `TRAIN-12 feat: 소셜 로그인 추가`         |
+| `fix`      | 버그 수정              | `TRAIN-23 fix: 메모리 누수 해결`          |
+| `refactor` | 리팩토링 (기능 변화 없음)    | `TRAIN-34 refactor: 유저 서비스 구조 개선`  |
+| `perf`     | 성능 개선              | `TRAIN-45 perf: DB 쿼리 최적화`         |
+| `style`    | 코드 스타일 변경          | `TRAIN-56 style: 린트 규칙 적용`         |
+| `docs`     | 문서 수정              | `TRAIN-67 docs: API 문서 업데이트`       |
+| `test`     | 테스트 추가/수정          | `TRAIN-78 test: 로그인 테스트 추가`        |
+| `chore`    | 빌드/설정 변경           | `TRAIN-89 chore: 의존성 업데이트`         |
+| `ci`       | CI/CD 설정 변경        | `TRAIN-90 ci: 배포 스크립트 개선`          |
+| `infra`    | 인프라, 배포, 환경 설정 변경  | `TRAIN-140 infra: Docker 빌드 최적화`   |
+| `release`  | 릴리스 버전 태깅 및 QA 안정화 | `TRAIN-120 release: v1.2.0 릴리스 준비` |
+
+---
+
+### 브랜치 전략과 커밋 타입 매핑
+
+| 브랜치          | 커밋 타입      | 설명              | 예시                                 |
+|--------------|------------|-----------------|------------------------------------|
+| `feature/*`  | `feat`     | 새로운 기능 추가       | `TRAIN-12 feat: 사용자 인증 기능 추가`      |
+| `fix/*`      | `fix`      | 일반 버그 수정        | `TRAIN-23 fix: 로그인 검증 로직 수정`       |
+| `hotfix/*`   | `hotfix`   | 프로덕션 긴급 수정      | `TRAIN-99 hotfix: 결제 오류 임시 복구`     |
+| `refactor/*` | `refactor` | 코드 리팩토링         | `TRAIN-78 refactor: 서비스 구조 개선`     |
+| `docs/*`     | `docs`     | 문서 수정           | `TRAIN-90 docs: API 문서 업데이트`       |
+| `release/*`  | `release`  | QA 안정화 및 버전 태깅  | `TRAIN-120 release: v1.2.0 릴리스 준비` |
+| `test/*`     | `test`     | 테스트 코드 작성/수정    | `TRAIN-133 test: 부하 테스트 스크립트 추가`   |
+| `infra/*`    | `infra`    | 인프라/배포/CI 설정 변경 | `TRAIN-140 infra: Docker 빌드 최적화`   |
+| `chore/*`    | `chore`    | 설정/의존성 관리       | `TRAIN-150 chore: ESLint 설정 수정`    |
 
 ---
 
@@ -249,11 +267,20 @@ TRAIN-12 feat: 로그인 추가, 버그 수정, 리팩토링
 
 `.git/hooks/commit-msg` 파일을 생성하여 검증을 자동화합니다.
 
+#### 파일 생성 및 실행 권한 부여
+
+```bash
+touch .git/hooks/commit-msg
+chmod +x .git/hooks/commit-msg
+```
+
+#### Git Hooks 스크립트
+
 ```bash
 #!/bin/sh
 
 commit_msg=$(cat $1)
-commit_regex='^TRAIN-[0-9]+ (feat|fix|refactor|perf|style|docs|test|chore|ci)(\(.+\))?: .{1,50}'
+commit_regex='^TRAIN-[0-9]+ (feat|fix|refactor|perf|style|docs|test|chore|ci|infra|release)(\(.+\))?: .{1,50}'
 
 if ! echo "$commit_msg" | head -1 | grep -qE "$commit_regex"; then
     echo "❌ 잘못된 커밋 메시지 형식"
@@ -267,6 +294,15 @@ if ! echo "$commit_msg" | head -1 | grep -qE "$commit_regex"; then
     exit 1
 fi
 ```
+
+#### 검증 동작 확인
+
+```bash
+git commit -m "TRAIN-12 feat: 로그인 기능 추가"   # 통과
+git commit -m "feat: 로그인 추가"                # 거부됨
+```
+
+---
 
 ### 커밋 템플릿
 

@@ -8,7 +8,7 @@
 
 **문서 버전 (Version)**: v0.1
 
-**문서 상태 (Status)**: Approved
+**문서 상태 (Status)**: Draft
 
 ---
 
@@ -148,7 +148,7 @@ if [ $? -ne 0 ]; then
     # 경고만 출력, 커밋은 허용
 fi
 
-echo "✅ Pre-commit 검사 통과"
+echo "☑️ Pre-commit 검사 통과"
 ```
 
 ### 실행 흐름
@@ -193,7 +193,7 @@ commit_msg=$(cat $commit_file)
 echo "커밋 메시지 검증 중..."
 
 # 1. Jira 이슈 번호 + 타입 검증
-commit_regex='^TRAIN-[0-9]+ (feat|fix|refactor|perf|style|docs|test|chore|ci|revert)(\(.+\))?: .{1,50}'
+commit_regex='^TRAIN-[0-9]+ (feat|fix|refactor|perf|style|docs|test|chore|ci|revert|infra|release|hotfix)(\(.+\))?: .{1,50}'
 
 if ! echo "$commit_msg" | head -1 | grep -qE "$commit_regex"; then
     echo "❌ 잘못된 커밋 메시지 형식"
@@ -223,7 +223,7 @@ if echo "$commit_msg" | grep -qi "WIP"; then
     echo "⚠️  WIP 커밋입니다. PR 전에 정리하세요."
 fi
 
-echo "✅ 커밋 메시지 형식 올바름"
+echo "☑️ 커밋 메시지 형식 올바름"
 ```
 
 ### 검증 규칙
@@ -299,7 +299,7 @@ if [[ ! $current_branch =~ TRAIN-[0-9]+ ]]; then
     # 경고만 출력, 푸시는 허용
 fi
 
-echo "✅ Pre-push 검사 통과"
+echo "☑️ Pre-push 검사 통과"
 ```
 
 ### 검증 항목
@@ -442,7 +442,7 @@ cp .git/hooks/pre-push scripts/git-hooks/
 #!/bin/bash
 cp scripts/git-hooks/* .git/hooks/
 chmod +x .git/hooks/*
-echo "✅ Git Hooks 설치 완료"
+echo "☑️ Git Hooks 설치 완료"
 
 # 3. README에 안내
 echo "## 개발 환경 설정

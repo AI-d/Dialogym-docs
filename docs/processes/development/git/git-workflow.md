@@ -8,7 +8,7 @@
 
 **문서 버전 (Version)**: v0.1
 
-**문서 상태 (Status)**: Approved
+**문서 상태 (Status)**: Draft
 
 ---
 
@@ -120,6 +120,14 @@ git push origin feature/TRAIN-12-user-authentication
 
 ### 5단계: 코드 리뷰 및 병합
 
+- **정기 리뷰**: 매일 **오후 3시** 팀 리뷰 세션
+- **승인 요건**: 최소 1명(메인 변경 시 2명 권장) Approve
+- **병합 방식**:
+    - 기능/수정/리팩토링/문서/인프라/잡무 → dev: **Squash & Merge**
+    - dev → main: **Merge commit**
+    - hotfix → main: **Merge commit**, 이후 dev에 **cherry-pick**
+    - release → main: **Merge commit**, 이후 dev 동기화
+
 ```bash
 # 리뷰 승인 후 Squash & Merge
 # Jira 이슈 자동 업데이트
@@ -203,7 +211,7 @@ git switch -c feature/TRAIN-XX-description
 
 ```bash
 git add .
-git commit -m "TRAIN-XX type: description"
+git commit -m "TRAIN-XX feat|fix|refactor|docs|infra|chore|test|ci|release|hotfix: 설명"
 git push origin feature/TRAIN-XX-description
 ```
 

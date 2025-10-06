@@ -8,7 +8,7 @@
 
 **문서 버전 (Version)**: v0.1
 
-**문서 상태 (Status)**: Approved
+**문서 상태 (Status)**: Draft
 
 ---
 

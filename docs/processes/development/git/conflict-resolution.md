@@ -8,7 +8,7 @@
 
 **문서 버전 (Version)**: v0.1
 
-**문서 상태 (Status)**: Approved
+**문서 상태 (Status)**: Draft
 
 ---
 
@@ -105,7 +105,7 @@ git status
 git add src/user.service.js
 
 # 4. 병합 완료
-git commit -m "TRAIN-12 resolve: dev 병합 충돌 해결"
+git commit -m "TRAIN-12 fix: dev 병합 충돌 해결"
 
 # 5. 푸시
 git push origin feature/TRAIN-12

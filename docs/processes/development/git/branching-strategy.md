@@ -8,7 +8,7 @@
 
 **문서 버전 (Version)**: v0.1
 
-**문서 상태 (Status)**: Approved
+**문서 상태 (Status)**: Draft
 
 ---
 
@@ -25,10 +25,11 @@
 ## 핵심 요약 (Executive Summary)
 
 본 문서는 프로젝트 팀의 Git 브랜치 전략과 관리 규칙을 정의합니다.
-브랜치는 main(프로덕션), dev(개발 통합), feature/*(기능), fix/*(버그), hotfix/*(긴급), refactor/*(리팩토링), docs/*(문서) 유형으로 관리됩니다.
+브랜치는 영구 브랜치 main(프로덕션), dev(개발 통합)
+임시 브랜치 feature/*(기능), fix/*(버그), hotfix/*(긴급), refactor/*(리팩토링), docs/*(문서), release/*(릴리스), test/*(테스트), infra/*(인프라),
+chore/*(설정) 유형으로 관리됩니다.
 모든 브랜치명은 타입/TRAIN-이슈번호-설명 형식을 따르며, 영문 소문자와 하이픈을 사용합니다.
-feature와 refactor 브랜치는 최대 2주, fix와 docs 브랜치는 1주, hotfix는 1일 수명을 가지며, 초과 시 연장 신청이 필요합니다.
-병합은 feature/fix/refactor/docs → dev는 Squash & Merge, dev → main은 Merge Commit 방식을 사용합니다.
+병합은 임시 브랜치 → dev는 Squash & Merge, dev → main은 Merge Commit 방식을 사용합니다.
 
 ---
 
@@ -37,10 +38,9 @@ feature와 refactor 브랜치는 최대 2주, fix와 docs 브랜치는 1주, hot
 1. [문서 개요](#문서-개요-overview)
 2. [브랜치 구조](#브랜치-구조)
 3. [브랜치 네이밍 규칙](#브랜치-네이밍-규칙)
-4. [브랜치 수명 관리](#브랜치-수명-관리)
-5. [병합 전략](#병합-전략)
-6. [브랜치 보호 규칙](#브랜치-보호-규칙)
-7. [브랜치 정리 체크리스트](#브랜치-정리-체크리스트)
+4. [병합 전략](#병합-전략)
+5. [브랜치 보호 규칙](#브랜치-보호-규칙)
+6. [브랜치 정리 체크리스트](#브랜치-정리-체크리스트)
 
 ---
 
@@ -62,86 +62,107 @@ feature와 refactor 브랜치는 최대 2주, fix와 docs 브랜치는 1주, hot
 #### main
 
 **용도**: 프로덕션 배포 전용
-
 **특징**: 항상 배포 가능한 상태 유지
-
 **보호**: 직접 푸시 금지, PR만 허용
-
 **병합**: dev → main (Merge Commit)
 
 #### dev
 
 **용도**: 개발 통합 브랜치
-
 **특징**: 모든 기능 브랜치의 병합 대상
-
 **보호**: 직접 푸시 금지, PR만 허용
-
 **병합**: feature/* → dev (Squash & Merge)
 
-### 임시 브랜치
+---
+
+### 주요 브랜치
 
 #### feature/*
 
 **용도**: 새로운 기능 개발
-
 **생성 기준**: dev 브랜치에서 분기
-
-**최대 수명**: 2주
-
 **네이밍**: `feature/TRAIN-이슈번호-설명`
-
 **예시**: `feature/TRAIN-12-user-authentication`
+
+---
 
 #### fix/*
 
 **용도**: 버그 수정
-
 **생성 기준**: dev 브랜치에서 분기
-
-**최대 수명**: 1주
-
 **네이밍**: `fix/TRAIN-이슈번호-설명`
-
 **예시**: `fix/TRAIN-45-login-error`
+
+---
 
 #### hotfix/*
 
 **용도**: 긴급 프로덕션 버그 수정
-
 **생성 기준**: main 브랜치에서 분기
-
-**최대 수명**: 1일
-
 **네이밍**: `hotfix/TRAIN-이슈번호-설명`
-
 **예시**: `hotfix/TRAIN-99-security-patch`
-
 **병합**: main과 dev 모두에 병합
+
+---
+
+### 임시 브랜치
 
 #### refactor/*
 
 **용도**: 코드 리팩토링 (기능 변화 없음)
-
 **생성 기준**: dev 브랜치에서 분기
-
-**최대 수명**: 2주
-
 **네이밍**: `refactor/TRAIN-이슈번호-설명`
-
 **예시**: `refactor/TRAIN-78-user-service`
+
+---
 
 #### docs/*
 
 **용도**: 문서 작성 및 수정
-
 **생성 기준**: dev 브랜치에서 분기
-
-**최대 수명**: 1주
-
 **네이밍**: `docs/TRAIN-이슈번호-설명`
-
 **예시**: `docs/TRAIN-90-api-documentation`
+
+---
+
+#### release/*
+
+**용도**: 릴리스 후보 버전 (QA, 안정화, 태깅 준비)
+**생성 기준**: dev 브랜치에서 분기
+**네이밍**: `release/TRAIN-이슈번호-버전명`
+**예시**: `release/TRAIN-120-v1.2.0`
+**병합**: QA 완료 후 main 병합 이후 dev에도 병합 (동기화), hotfix 발생 시 cherry-pick 반영
+**특징**: 일정 기간 QA 및 버전 태깅용으로 유지
+
+---
+
+#### test/*
+
+**용도**: 테스트 환경 전용 (QA, 통합 테스트, 부하 테스트 등)
+**생성 기준**: dev 브랜치에서 분기
+**네이밍**: `test/TRAIN-이슈번호-설명`
+**예시**: `test/TRAIN-133-api-load-test`
+**특징**: 실험성 QA 및 테스트 검증용, 병합 대상 아님
+
+---
+
+#### infra/*
+
+**용도**: 인프라, 배포, CI/CD 설정 관련 변경
+**생성 기준**: dev 브랜치에서 분기
+**네이밍**: `infra/TRAIN-이슈번호-설명`
+**예시**: `infra/TRAIN-140-terraform-eks-setup`
+**특징**: IaC, 배포 파이프라인, 환경 변수 구성 등 인프라 작업 전용
+
+---
+
+#### chore/*
+
+**용도**: 환경 설정, 의존성, 빌드 스크립트, 설정 파일 등 비기능적 변경
+**생성 기준**: dev 브랜치에서 분기
+**네이밍**: `chore/TRAIN-이슈번호-설명`
+**예시**: `chore/TRAIN-150-eslint-config-update`
+**특징**: 코드/문서 기능과 무관한 단순 관리 작업용, 병합은 dev로만 수행
 
 ---
 
@@ -155,12 +176,13 @@ feature와 refactor 브랜치는 최대 2주, fix와 docs 브랜치는 1주, hot
 
 ### 규칙
 
-다음 규칙을 준수합니다.
-
 1. 영문 소문자 사용
 2. 단어 구분은 하이픈(-)
 3. Jira 이슈 번호 필수 포함
 4. 설명은 간결하고 명확하게
+5. 릴리스 버전은 semver 사용 (`v{MAJOR}.{MINOR}.{PATCH}`)
+
+    * 프리릴리스는 `-rc.{n}` (예: `v1.2.0-rc.1`)
 
 ### 타입별 예시
 
@@ -186,11 +208,25 @@ refactor/TRAIN-89-database-layer
 # 문서
 docs/TRAIN-90-api-documentation
 docs/TRAIN-101-setup-guide
+
+# 인프라
+infra/TRAIN-140-terraform-eks-setup
+infra/TRAIN-142-ci-pipeline-update
+
+# 테스트
+test/TRAIN-133-api-load-test
+test/TRAIN-145-performance-check
+
+# 릴리스
+release/TRAIN-120-v1.2.0
+release/TRAIN-121-v1.3.0
+
+# 환경 설정
+chore/TRAIN-150-eslint-config-update
+chore/TRAIN-151-gradle-version-upgrade
 ```
 
 ### 잘못된 예시
-
-다음은 규칙을 위반한 예시입니다.
 
 ```bash
 # Jira 이슈 번호 없음
@@ -211,75 +247,28 @@ feature/TRAIN-12-implement-user-authentication-with-jwt-and-oauth
 
 ---
 
-## 브랜치 수명 관리
-
-### 수명 정책
-
-| 브랜치 타입       | 최대 수명 | 연장 가능 여부  |
-|--------------|-------|-----------|
-| `feature/*`  | 2주    | 팀 리더 승인 시 |
-| `fix/*`      | 1주    | 자동 연장 가능  |
-| `hotfix/*`   | 1일    | 연장 불가     |
-| `refactor/*` | 2주    | 팀 리더 승인 시 |
-| `docs/*`     | 1주    | 자동 연장 가능  |
-
-### 수명 초과 시 처리
-
-**1주차 경고**
-
-Jira 이슈에 코멘트가 자동 생성됩니다.
-
-```
-"이 브랜치가 1주가 지났습니다. 조만간 병합하거나 연장 신청하세요."
-```
-
-**2주차 알림**
-
-팀 채널에 알림이 전송됩니다.
-
-```
-"feature/TRAIN-12 브랜치가 2주를 초과했습니다. 즉시 조치 필요."
-```
-
-**연장 신청 방법**
-
-Jira 이슈에 다음과 같이 코멘트를 남깁니다.
-
-```markdown
-브랜치 연장 신청
-
-- 사유: 외부 API 연동 지연
-- 예상 완료일: 2025-10-15
-- 승인 요청: @team-lead
-```
-
-### 자동 정리
-
-GitHub 설정에서 병합된 브랜치를 자동으로 삭제합니다.
-
-```bash
-Repository Settings → General → Automatically delete head branches ✅
-```
-
----
-
 ## 병합 전략
 
 ### 병합 방식
 
-| From → To            | 병합 방식          | 이유         |
-|----------------------|----------------|------------|
-| `feature/*` → `dev`  | Squash & Merge | 커밋 히스토리 정리 |
-| `fix/*` → `dev`      | Squash & Merge | 커밋 히스토리 정리 |
-| `refactor/*` → `dev` | Squash & Merge | 커밋 히스토리 정리 |
-| `docs/*` → `dev`     | Squash & Merge | 커밋 히스토리 정리 |
-| `dev` → `main`       | Merge Commit   | 릴리스 추적성    |
-| `hotfix/*` → `main`  | Merge Commit   | 긴급 배포 추적   |
-| `hotfix/*` → `dev`   | Cherry-pick    | 개발 브랜치 동기화 |
+| From → To            | 병합 방식          | 이유             |
+|----------------------|----------------|----------------|
+| `feature/*` → `dev`  | Squash & Merge | 커밋 히스토리 정리     |
+| `fix/*` → `dev`      | Squash & Merge | 버그 수정 단일화      |
+| `refactor/*` → `dev` | Squash & Merge | 리팩토링 내역 단일화    |
+| `docs/*` → `dev`     | Squash & Merge | 문서 변경 간소화      |
+| `infra/*` → `dev`    | Squash & Merge | 설정 변경 단일화      |
+| `chore/*` → `dev`    | Squash & Merge | 비기능 변경 통합      |
+| `dev` → `release/*`  | Merge Commit   | QA 준비용 릴리스 분기  |
+| `release/*` → `main` | Merge Commit   | 최종 릴리스         |
+| `release/*` → `dev`  | Merge Commit   | 릴리스 수정사항 동기화   |
+| `test/*` → `dev`     | 선택적 병합         | 테스트 코드 필요 시 반영 |
+| `hotfix/*` → `main`  | Merge Commit   | 긴급 배포 추적       |
+| `hotfix/*` → `dev`   | Cherry-pick    | 개발 브랜치 동기화     |
 
-### Squash & Merge
+---
 
-GitHub UI에서 수행할 것을 권장하며, Squash 시 커밋 메시지 형식은 다음과 같습니다.
+### Squash & Merge 예시
 
 ```bash
 TRAIN-12 feat: 사용자 인증 시스템 구현
@@ -289,9 +278,9 @@ TRAIN-12 feat: 사용자 인증 시스템 구현
 - 리프레시 토큰 구현
 ```
 
-### Merge Commit
+---
 
-dev에서 main으로 병합 시 다음 명령을 사용합니다.
+### Merge Commit 예시
 
 ```bash
 git switch main
@@ -301,58 +290,55 @@ git tag v1.2.0
 git push origin main --tags
 ```
 
-### PR 생성 전 dev 최신화
-
-**방법 1: Merge (권장)**
-
-```bash
-git switch dev
-git pull origin dev
-git switch feature/TRAIN-12-description
-git merge dev
-git push origin feature/TRAIN-12-description
-```
-
-**방법 2: Rebase (선택적, 팀 공지 필요)**
-
-```bash
-git switch feature/TRAIN-12-description
-git rebase dev
-git push --force-with-lease origin feature/TRAIN-12-description
-```
-
 ---
 
 ## 브랜치 보호 규칙
 
 ### main 브랜치
 
-다음 보호 규칙이 적용됩니다.
+* 직접 푸시 금지
+* PR 필수
+* 최소 2명 Approve 필요
+* 모든 CI 통과 필수
+* 강제 푸시 금지
+* 삭제 금지
 
-- 직접 푸시 금지
-- PR 필수
-- 최소 2명 Approve 필요
-- 모든 CI 통과 필수
-- 강제 푸시 금지
-- 삭제 금지
+---
 
 ### dev 브랜치
 
-다음 보호 규칙이 적용됩니다.
+* 직접 푸시 금지
+* PR 필수
+* 최소 1명 Approve 필요
+* CI 통과 필수
+* 강제 푸시 금지
 
-- 직접 푸시 금지
-- PR 필수
-- 최소 1명 Approve 필요
-- CI 통과 필수
-- 강제 푸시 금지
+---
 
-### feature/fix/refactor/docs 브랜치
+### release 브랜치
 
-다음 규칙이 적용됩니다.
+* 직접 푸시 금지
+* PR 필수
+* 최소 1명 Approve 필요
+* CI 통과 필수
+* 강제 푸시 금지
 
-- 자유롭게 작업 가능
-- 강제 푸시 허용 (사전 공지 필요)
-- 본인만 삭제 가능
+---
+
+### feature / fix / refactor / docs / infra / chore 브랜치
+
+* 자유롭게 작업 가능
+* 강제 푸시 허용 (사전 공지 필요)
+* 본인만 삭제 가능
+* 병합은 dev로만 수행
+
+---
+
+### test 브랜치
+
+* 병합 대상 아님 (테스트 코드 유지용)
+* QA/부하 테스트 완료 후 수동 삭제
+* CI 환경에 영향 주지 않도록 분리
 
 ---
 
@@ -360,20 +346,22 @@ git push --force-with-lease origin feature/TRAIN-12-description
 
 ### PR 머지 후
 
-다음 작업을 수행합니다.
-
-- 로컬 브랜치 삭제: `git branch -d feature/TRAIN-XX`
-- 원격 브랜치 삭제: `git push origin --delete feature/TRAIN-XX`
-- Jira 이슈 상태 확인 (자동 업데이트 확인)
-- dev 브랜치 최신화: `git switch dev && git pull origin dev`
+* 로컬 브랜치 삭제: `git branch -d feature/TRAIN-XX`
+* 원격 브랜치 삭제: `git push origin --delete feature/TRAIN-XX`
+* Jira 이슈 상태 자동 업데이트 확인
+* dev 최신화: `git switch dev && git pull origin dev`
 
 ### 주간 점검 (매주 월요일)
 
-다음 항목을 점검합니다.
+* 2주 이상 Stale 브랜치 확인
+* 병합 완료 브랜치 정리
+* release 브랜치 QA 상태 확인
 
-- Stale 브랜치 확인 (2주 이상)
-- 병합된 브랜치 정리
-- 연장 신청 브랜치 검토
+### 릴리스 종료 후
+
+* main 병합 및 태그 확인
+* release/* → dev 병합(수정사항 동기화)
+* release/* 브랜치 삭제
 
 ---
 
