@@ -1,0 +1,11 @@
+// decisions/backend/
+// 백엔드 관련 ADR이 위치합니다.
+// - 인증 전략, 데이터베이스 선택, 캐싱 전략 등
+// - 형식: NNN-title.md
+// 백엔드 기술 의사결정을 기록합니다.
+//
+// 예시 파일:
+// - 001-authentication-strategy.md
+// - 002-database-choice.md
+// - 003-caching-strategy.md
+// - 004-api-design-pattern.md

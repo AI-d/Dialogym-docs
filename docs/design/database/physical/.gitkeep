@@ -1,0 +1,12 @@
+// design/database/physical/
+// 물리 ERD 및 DDL이 위치합니다.
+// - 물리적 테이블 구조
+// - DDL 스크립트
+// - 인덱스, 파티션 정의
+// 실제 구현 가능한 데이터베이스 구조를 정의합니다.
+//
+// 예시 파일:
+// - physical-erd.png
+// - ddl.sql
+// - indexes.sql
+// - seed-data.sql

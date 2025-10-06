@@ -1,0 +1,12 @@
+// design/ui/userflow/
+// 사용자 플로우 다이어그램이 위치합니다.
+// - 로그인 플로우
+// - 결제 플로우
+// - 관리자 플로우
+// 사용자의 동선과 상호작용을 시각화합니다.
+//
+// 예시 파일:
+// - login-flow.png
+// - signup-flow.png
+// - checkout-flow.png
+// - admin-flow.png

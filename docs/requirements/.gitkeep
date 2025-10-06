@@ -1,0 +1,11 @@
+// requirements/
+// 프로젝트의 요구사항과 정책 문서가 위치합니다.
+// - 기능/비기능 요구사항 명세서
+// - 사용자 스토리
+// - 보안/개인정보/데이터 정책
+// 프로젝트가 무엇을 해결하고자 하는지 정의합니다.
+//
+// 예시 파일:
+// - functional-requirements.md
+// - non-functional-requirements.md
+// - user-stories.md

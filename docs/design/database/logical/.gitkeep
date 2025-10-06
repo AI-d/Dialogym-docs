@@ -1,0 +1,9 @@
+// design/database/logical/
+// 논리 ERD가 위치합니다.
+// - 속성, 키, 제약조건 포함
+// - DBMS 독립적 설계
+// 데이터베이스의 논리적 구조를 정의합니다.
+//
+// 예시 파일:
+// - logical-erd.png
+// - table-specifications.md

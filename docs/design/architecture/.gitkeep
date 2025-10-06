@@ -1,0 +1,11 @@
+// design/architecture/
+// 전체 시스템 아키텍처 문서가 위치합니다.
+// - 시스템 아키텍처 명세서
+// - 컴포넌트 구조도
+// - 시스템 오버뷰 다이어그램
+// 시스템의 전반적인 구조와 구성 요소를 정의합니다.
+//
+// 예시 파일:
+// - system-architecture.md
+// - diagrams/system-overview.png
+// - diagrams/component-diagram.png

@@ -1,0 +1,9 @@
+// archive/wiki-snapshots/
+// 프로젝트 종료 시 Wiki 최종본이 위치합니다.
+// - 백엔드 Wiki 최종본
+// - 프론트엔드 Wiki 최종본
+// Wiki의 최종 상태를 백업합니다.
+//
+// 예시 파일:
+// - backend-wiki-final.md
+// - frontend-wiki-final.md

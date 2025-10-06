@@ -1,0 +1,10 @@
+// troubleshooting/dohee/
+// 진도희 팀원의 트러블슈팅 문서가 위치합니다.
+// - 개발 중 겪은 문제와 해결 과정 기록
+// - 백엔드/프론트엔드/인프라 구분 없이 작성
+// 개인별 문제 해결 경험을 공유합니다.
+//
+// 예시 파일:
+// - ci-cd-pipeline-failure.md
+// - api-performance-issue.md
+// - memory-leak-debugging.md

@@ -1,0 +1,12 @@
+// design/api/
+// API 설계 문서가 위치합니다.
+// - REST API 명세서
+// - Swagger/OpenAPI 스펙
+// - Postman 컬렉션
+// 백엔드와 프론트엔드 간 통신 규약을 정의합니다.
+//
+// 예시 파일:
+// - api-specification.md
+// - swagger.yaml
+// - openapi.json
+// - postman-collection.json

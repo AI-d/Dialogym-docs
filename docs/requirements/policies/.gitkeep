@@ -1,0 +1,11 @@
+// requirements/policies/
+// 프로젝트의 정책 문서가 위치합니다.
+// - 보안 정책
+// - 개인정보 처리 방침
+// - 데이터 보관 정책
+// 법적/윤리적 기준과 운영 규칙을 정의합니다.
+//
+// 예시 파일:
+// - security-policy.md
+// - privacy-policy.md
+// - data-retention-policy.md
