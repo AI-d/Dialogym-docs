@@ -56,10 +56,6 @@
 
 > Highest / High / Medium / Low / Lowest
 
-### Sprint - (필수)
-
-[에픽과 연관된 스프린트를 지정합니다.]
-
 ### Team - (필수)
 
 [담당 팀을 지정합니다.]
