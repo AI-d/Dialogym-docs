@@ -1,0 +1,240 @@
+// ============================================
+// trAIn 프로젝트 데이터베이스 스키마
+// ============================================
+// 작성자: 왕택준
+// 작성일: 2025.11.01
+// 설명: 인증, 시나리오, 세션, 피드백 시스템의 전체 테이블 구조
+// ============================================
+
+// ============================================
+// 1. 사용자 및 인증 관련 테이블
+// ============================================
+
+Table users {
+    id bigint [pk, increment]
+    email varchar(100) [not null]
+    password varchar(60) [note: 'BCrypt 암호화, 소셜 계정은 NULL']
+    name varchar(50) [not null]
+    birth_date date [not null]
+    job_type varchar(20) [not null, note: 'STUDENT, JOB_SEEKER, EMPLOYEE, SELF_EMPLOYED, FREELANCER, HOUSEWIFE, OTHER']
+    job_detail varchar(20)
+    primary_provider varchar(10) [not null, note: 'LOCAL, GOOGLE, KAKAO, NAVER']
+    email_verified boolean [not null, default: false]
+    status varchar(10) [not null, default: 'ACTIVE', note: 'ACTIVE, INACTIVE, SUSPENDED, WITHDRAWN']
+    last_login_at datetime
+    created_at datetime [not null]
+    deleted_at datetime
+    
+    indexes {
+        (email, primary_provider) [unique, name: 'uk_email_provider']
+        email [name: 'idx_user_email']
+        status [name: 'idx_user_status']
+        last_login_at [name: 'idx_user_last_login']
+    }
+}
+
+Table refresh_tokens {
+    id bigint [pk, increment]
+    user_id bigint [not null, ref: > users.id]
+    token varchar(500) [not null, unique]
+    expiry_date datetime [not null]
+    created_at datetime [not null]
+    
+    indexes {
+        user_id [name: 'idx_rt_user']
+        token [name: 'idx_rt_token']
+        expiry_date [name: 'idx_rt_expiry']
+    }
+}
+
+Table social_accounts {
+    id bigint [pk, increment]
+    user_id bigint [not null, ref: > users.id]
+    provider varchar(10) [not null, note: 'GOOGLE, KAKAO, NAVER']
+    provider_id varchar(100) [not null]
+    social_email varchar(100) [not null]
+    social_name varchar(100) [not null]
+    is_connected boolean [not null, default: true]
+    last_login_at datetime
+    
+    indexes {
+        (provider, provider_id) [unique, name: 'uk_provider_provider_id']
+    }
+}
+
+Table email_verifications {
+    id bigint [pk, increment]
+    user_id bigint [not null, ref: > users.id]
+    email varchar(100) [not null]
+    verification_token varchar(500) [not null, unique]
+    code varchar(6) [not null, note: '6자리 OTP']
+    expiry_date datetime [not null]
+    is_verified boolean [not null, default: false]
+    verified_at datetime
+    created_at datetime [not null]
+    
+    indexes {
+        verification_token [name: 'idx_ev_token']
+        user_id [name: 'idx_ev_user']
+        email [name: 'idx_ev_email']
+        (email, code) [name: 'idx_ev_email_code']
+        expiry_date [name: 'idx_ev_expiry']
+    }
+}
+
+Table one_time_codes {
+    id bigint [pk, increment]
+    code varchar(16) [not null, unique]
+    user_id varchar(20) [not null]
+    expiry_date datetime [not null]
+    used boolean [not null, default: false]
+    
+    indexes {
+        user_id [name: 'idx_otc_user']
+    }
+}
+
+Table pending_social_users {
+    id bigint [pk, increment]
+    pending_token varchar(500) [not null, unique]
+    provider varchar(10) [not null, note: 'GOOGLE, KAKAO, NAVER']
+    provider_id varchar(100) [not null]
+    email varchar(100) [not null]
+    name varchar(100) [not null]
+    expiry_date datetime [not null]
+    used boolean [not null, default: false]
+    used_at datetime
+    created_at datetime [not null]
+    
+    indexes {
+        pending_token [name: 'idx_psu_token']
+        (provider, provider_id) [name: 'idx_psu_provider']
+        expiry_date [name: 'idx_psu_expiry']
+    }
+}
+
+// ============================================
+// 2. 약관 관련 테이블
+// ============================================
+
+Table terms {
+    id bigint [pk, increment]
+    type varchar(20) [not null, note: 'TERMS_OF_SERVICE, PRIVACY_POLICY, MARKETING_CONSENT']
+    version varchar(20) [not null]
+    title varchar(200) [not null]
+    content text [not null]
+    is_required boolean [not null, default: true]
+    is_active boolean [not null, default: true]
+    
+    indexes {
+        (type, version) [unique, name: 'uk_terms_type_version']
+        (type, is_active) [name: 'idx_terms_type_active']
+    }
+}
+
+Table user_consents {
+    id bigint [pk, increment]
+    user_id bigint [not null, ref: > users.id]
+    terms_id bigint [not null, ref: > terms.id]
+    is_agreed boolean [not null, default: true]
+    consented_at datetime [not null]
+    revoked_at datetime
+    
+    indexes {
+        (user_id, terms_id) [name: 'idx_uc_user_terms']
+    }
+}
+
+// ============================================
+// 3. 시나리오 관련 테이블
+// ============================================
+
+Table scenario {
+    id bigint [pk, increment]
+    title varchar(120) [not null]
+    role text [not null]
+    description text
+    prompt text [not null]
+    voice varchar(16) [not null, note: 'ALLOY, ASH, BALLAD, CORAL, ECHO, SAGE, SHIMMER, VERSE, MARIN, CEDAR']
+    difficulty varchar(16) [not null, note: 'EASY, MEDIUM, HARD']
+    category varchar(24) [not null, note: 'WORK, RELATIONSHIP, FAMILY, FRIEND, DAILY']
+    locale varchar(10) [not null, default: 'ko-KR']
+    status varchar(16) [not null, default: 'PUBLISHED', note: 'DRAFT, PUBLISHED, DELETED']
+    is_default boolean [not null, default: true]
+    owner_id bigint [ref: > users.id]
+    created_at datetime [not null]
+    updated_at datetime [not null]
+}
+
+// ============================================
+// 4. 대화 세션 관련 테이블
+// ============================================
+
+Table dialogue_sessions {
+    id bigint [pk, increment]
+    session_id varchar(255) [not null, unique]
+    user_id bigint [not null, ref: > users.id]
+    scenario_id bigint [not null, ref: > scenario.id]
+    status varchar(10) [not null, note: 'ONGOING, COMPLETED, FAILED']
+    started_at datetime [not null]
+    ended_at datetime
+    audio_url varchar(255)
+    audio_duration_seconds int
+    realtime_metrics json
+    janus_room_id bigint
+    janus_user_feed_id bigint
+    janus_bot_feed_id bigint
+    ai_realtime_session_id varchar(128)
+    created_at datetime [not null]
+    updated_at datetime [not null]
+    
+    indexes {
+        user_id [name: 'idx_user_id']
+    }
+}
+
+Table transcripts {
+    id bigint [pk, increment]
+    session_id bigint [not null, ref: > dialogue_sessions.id]
+    speaker varchar(4) [not null, note: 'USER, AI']
+    content text [not null]
+    timestamp datetime [not null]
+    start_time_ms bigint
+    end_time_ms bigint
+    confidence_score float
+    created_at datetime [not null]
+    
+    indexes {
+        session_id [name: 'idx_session_id']
+    }
+}
+
+// ============================================
+// 5. 피드백 관련 테이블
+// ============================================
+
+Table feedbacks {
+    id bigint [pk, increment]
+    session_id bigint [not null, unique, ref: - dialogue_sessions.id]
+    total_score int [not null]
+    speech_rate_score int [not null]
+    filler_words_score int [not null]
+    politeness_score int [not null]
+    clarity_score int [not null]
+    improvement_points json
+    original_transcript text
+    alternative_a text
+    alternative_b text
+    alternative_c text
+    final_choice text
+    chosen_alternative varchar(10) [note: 'A, B, C, CUSTOM']
+    ai_prompt text
+    ai_raw_response text
+    created_at datetime [not null]
+    updated_at datetime [not null]
+    
+    indexes {
+        session_id [name: 'idx_feedback_session_id']
+        created_at [name: 'idx_feedback_created_at']
+    }
+}
