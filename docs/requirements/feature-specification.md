@@ -603,10 +603,10 @@ Frontend: 피드백 화면 표시
 
 ## 관련 문서
 
-* [프로젝트 개요](./project-overview.md) - Dialogym의 출발점과 목표
-* [문제 분석 보고서](./problem-analysis.md) - 해결하고자 하는 사회 문제
-* [컨셉 정의서](./concept-definition.md) - 서비스 철학과 핵심 컨셉
-* [경쟁사 분석](./competitive-analysis.md) - 기존 서비스 대비 차별점
+* [프로젝트 개요](project-overview.md) - Dialogym의 출발점과 목표
+* [문제 분석 보고서](problem-analysis.md) - 해결하고자 하는 사회 문제
+* [컨셉 정의서](concept-definition.md) - 서비스 철학과 핵심 컨셉
+* [경쟁사 분석](competitive-analysis.md) - 기존 서비스 대비 차별점
 * [팀 역할 정의](../team/team-roles.md) - 팀원별 역할과 책임
 * [팀 기술 스택](../team/team-tech-stack.md) - 팀원별 기술 담당 영역
 * [Sprint 계획](../meetings/sprint-planning/sprint-plan.md) - 5주 상세 일정

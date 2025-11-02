@@ -522,10 +522,10 @@ Replika, ChatGPT 등은 답변만 제공
 
 ## 관련 문서
 
-* [프로젝트 개요](./project-overview.md) - Dialogym의 출발점
-* [문제 분석 보고서](./problem-analysis.md) - 해결하고자 하는 문제
-* [컨셉 정의서](./concept-definition.md) - 서비스 철학과 차별성
-* [기능 명세서](./feature-specification.md) - 차별성 구현 방법
+* [프로젝트 개요](project-overview.md) - Dialogym의 출발점
+* [문제 분석 보고서](problem-analysis.md) - 해결하고자 하는 문제
+* [컨셉 정의서](concept-definition.md) - 서비스 철학과 차별성
+* [기능 명세서](feature-specification.md) - 차별성 구현 방법
 
 ---
 
