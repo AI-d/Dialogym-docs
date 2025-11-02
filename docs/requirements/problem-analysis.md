@@ -395,10 +395,10 @@
 
 ## 관련 문서
 
-* [프로젝트 개요](./project-overview.md) - Dialogym의 출발점과 목표
-* [컨셉 정의서](./concept-definition.md) - 서비스 철학과 핵심 컨셉
-* [경쟁사 분석](./competitive-analysis.md) - 기존 서비스의 한계
-* [기능 명세서](./feature-specification.md) - 문제 해결을 위한 기능
+* [프로젝트 개요](project-overview.md) - Dialogym의 출발점과 목표
+* [컨셉 정의서](concept-definition.md) - 서비스 철학과 핵심 컨셉
+* [경쟁사 분석](competitive-analysis.md) - 기존 서비스의 한계
+* [기능 명세서](feature-specification.md) - 문제 해결을 위한 기능
 
 ---
 

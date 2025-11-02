@@ -429,10 +429,10 @@ AI:
 
 ## 관련 문서
 
-* [프로젝트 개요](./project-overview.md) - Dialogym의 출발점
-* [문제 분석 보고서](./problem-analysis.md) - 해결하고자 하는 문제
-* [경쟁사 분석](./competitive-analysis.md) - 차별점 상세 비교
-* [기능 명세서](./feature-specification.md) - 컨셉 구현 방법
+* [프로젝트 개요](project-overview.md) - Dialogym의 출발점
+* [문제 분석 보고서](problem-analysis.md) - 해결하고자 하는 문제
+* [경쟁사 분석](competitive-analysis.md) - 차별점 상세 비교
+* [기능 명세서](feature-specification.md) - 컨셉 구현 방법
 
 ---
 
