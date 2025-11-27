@@ -41,7 +41,7 @@
 ## 왕택준 담당 영역
 
 ### 역할
-**Product Owner / Tech Lead / PM / Documentation Manager / Fullstack Developer (Backend 주력, Frontend 보조)**
+**Product Owner / Tech Lead / PM / Documentation Manager / Fullstack Developer**
 
 ### 백엔드 기능
 
@@ -89,21 +89,37 @@
 
 ### 프론트엔드
 
-**담당 페이지**: 웰컴, 회원가입, 로그인, 이메일 인증, 피드백, 마이 페이지
+**Pages (페이지):**
+- **Auth**: CallbackPage, EmailVerificationPage, EmailVerificationCompletePage, LoginPage, SignupPage, SocialSignupPage, SocialSignupCompletePage
+- **Welcome**: WelcomePage
+- **Feedback**: FeedbackGenerationPage
+- **User**: MyProfilePage, PasswordChangePage
 
-**1. 상태 관리 (Zustand)**
-- authStore: 인증 상태, 사용자 정보, 토큰 관리
-- 피드백 관련 상태 관리
+**Components (컴포넌트):**
+- **Auth**: 로그인 폼, 회원가입 폼, 소셜 버튼, 이메일 인증, 약관 동의 등 모든 인증 관련 컴포넌트
+- **Welcome**: WelcomeHeader, WelcomeHero, WelcomeFooter
+- **Feedback**: FeedbackScoreCard, FeedbackAlternatives, FeedbackDetailModal 등 모든 피드백 컴포넌트
+- **User**: ProfileForm, PasswordChangeForm, FeedbackHistory, ConsentSettings
+- **Common**: Modal, inputs (TextInput, PasswordInput, DateInput, Select), ErrorMessage, LoadingOverlay
 
-**2. API 통신 (Axios)**
-- Request Interceptor: JWT 토큰 자동 추가
-- Response Interceptor: 토큰 갱신 자동화 (Promise 재사용 패턴)
-- 에러 핸들링 및 재시도 로직
+**Services (서비스):**
+- authService.js (로그인, 회원가입, 토큰 교환)
+- feedbackService.js (피드백 생성, 조회, 선택)
+- termsService.js (약관 조회, 동의 관리)
+- userService.js (프로필 조회/수정, 비밀번호 변경)
+- apiClient.js (Axios 인스턴스, Interceptor)
+- tokenManager.js (토큰 관리)
 
-**3. 라우팅 (React Router)**
-- Public Routes: 웰컴, 로그인, 회원가입, 이메일 인증
-- Protected Routes: 피드백, 마이 페이지
-- OAuth2 Callback 처리
+**Stores (상태 관리):**
+- authStore.js (인증 상태, 사용자 정보, 토큰 관리)
+
+**Hooks:**
+- useAuthBootstrap.js (앱 시작 시 인증 상태 초기화)
+- usePageTitle.js (페이지 제목 관리)
+
+**Routes:**
+- ProtectedRoute.jsx (인증 필요 라우트 보호)
+- route.config.jsx (라우트 설정)
 
 ### 문서화
 
@@ -184,16 +200,24 @@
 
 ### 프론트엔드
 
-**담당 페이지**: 기본 시나리오 선택 화면, 커스텀 시나리오 생성 화면
+**Pages (페이지):**
+- **Scenario**: ScenarioListPage (시나리오 선택 화면), CreateScenarioPage (커스텀 시나리오 생성 화면)
 
-**1. 시나리오 선택 화면**
-- 시나리오 카드 UI
-- API 연동
-- 시나리오 선택 상태 관리
+**Components (컴포넌트):**
+- **Header**: AppHeader (공동 작업)
 
-**2. 커스텀 시나리오 생성 화면**
-- 시나리오 생성 폼 UI
-- API 연동
+**Stores (상태 관리):**
+- scenarioStore.js (시나리오 목록 및 선택 상태)
+- authStore.js (공동 작업)
+
+**Layouts:**
+- AppLayout (공동 작업)
+
+**기타:**
+- AiTest.jsx (공동 작업)
+- main.jsx (공동 작업)
+
+**참고:** 시나리오 관련 프론트엔드 페이지 담당, 인프라 및 백엔드 세션 관리에 주력
 
 ### 인프라
 
@@ -294,26 +318,37 @@
 
 ### 프론트엔드
 
-**담당 페이지**: AI 대화 화면
+**Pages (페이지):**
+- **Dialogue**: DialoguePage (AI 대화 화면)
+- **Scenario**: ScenarioListPage (시나리오 선택 화면), CreateScenarioPage (커스텀 시나리오 생성 화면)
 
-**1. GPT Realtime API WebRTC 연결**
-- WebRTC P2P 클라이언트 구현
+**Hooks:**
+- useRealtimeSession.js (GPT Realtime API WebRTC 연결)
+  - WebRTC P2P 클라이언트 구현
   - getUserMedia() (마이크 권한)
   - GPT-4o Realtime API WebSocket 연결
   - Ephemeral Key 기반 인증
+  - 음성 데이터 전송 관리
+  - 음량 시각화 (VAD)
+  - 실시간 STT 데이터 WebSocket 전송
 
-**2. 음성 전송 제어**
-- 음성 데이터 전송 관리
-- 음량 시각화 (VAD)
+**Stores (상태 관리):**
+- scenarioStore.js (시나리오 목록 및 선택 상태)
+- sessionStore.js (대화 세션 관리)
 
-**3. 실시간 STT 데이터 WebSocket 전송**
-- 실시간 자막 표시 (Transcript)
-- WebSocket을 통한 STT 데이터 전송
+**Services:**
+- api.js (API 호출 유틸리티)
 
-**4. 실시간 피드백 UI**
-- 대화 타이머
-- 추임새 알림
-- 발화 속도 게이지
+**Components (컴포넌트):**
+- Header: AppHeader (공동 작업)
+
+**Layouts:**
+- AppLayout (공동 작업)
+
+**기타:**
+- audio-processor.js (음성 처리)
+- AiTest.jsx (GPT Realtime API 테스트)
+- main.jsx (공동 작업)
 
 ### 문서화
 
