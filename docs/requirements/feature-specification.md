@@ -521,31 +521,53 @@ Frontend: 피드백 화면 표시
 **GitHub**: https://github.com/TJK98
 
 **Backend:**
-- JWT 기반 인증 시스템 구축
+- **인증/보안 시스템 (`global/security/`, `domain/user/`)**
   - JWT 토큰 생성 및 검증 (JwtTokenProvider)
   - JWT 인증 필터 (JwtAuthenticationFilter)
   - Refresh Token Rotation (RTR)
   - Rate Limiting (RefreshRateLimitFilter)
-- OAuth2 소셜 로그인 (Google/Kakao/Naver)
+  - OAuth2 소셜 로그인 (Google/Kakao/Naver)
   - OAuth2 로그인 성공 핸들러
   - 일회용 코드 방식 구현
-- 이메일 인증 (6자리 코드 발송/검증)
-- 약관 관리 API
-- AI 피드백 생성
-  - 전체 대화 평가
-  - 문장별 분석
-  - 개선안 3개 생성 (간결/공손/따뜻)
-- 피드백 히스토리 및 성장 통계 API
-- 공통 기능 (예외 처리, 유틸리티, 스케줄러)
+- **사용자 관리 (`domain/user/`)**
+  - AuthController, UserController, SocialAuthController
+  - 회원가입, 로그인, 프로필 관리, 비밀번호 변경
+- **이메일 인증 (`domain/verification/`)**
+  - 이메일 인증 코드 발송/검증
+  - 소셜 회원가입 완료 처리
+- **약관 관리 (`domain/terms/`)**
+  - TermsController, UserConsentController
+  - 약관 조회 및 동의 처리
+- **AI 피드백 시스템 (`domain/feedback/`)**
+  - FeedbackController, FeedbackService, FeedbackPromptService
+  - 전체 대화 평가, 문장별 분석, 개선안 3개 생성
+  - 피드백 히스토리 및 성장 통계 API
+- **공통 기능 (`global/`)**
+  - 예외 처리, 유틸리티, 스케줄러
 
-**Frontend:**
-- 웰컴, 회원가입, 로그인, 이메일 인증 화면 구현
-- 피드백, 마이 페이지 화면 구현
-- Zustand 상태 관리 (authStore, 피드백)
-- Axios Interceptor (토큰 갱신 자동화)
+**Frontend (Git 커밋 기록 기준 - 72개 파일):**
+- **Pages (페이지 전체 담당)**
+  - Auth: 웰컴, 로그인, 회원가입, 이메일 인증, 소셜 로그인, OAuth2 Callback
+  - Feedback: 피드백 생성 및 결과
+  - User: 마이 페이지, 비밀번호 변경
+- **Components (컴포넌트 전체 담당)**
+  - Auth: 로그인 폼, 회원가입 폼, 소셜 버튼, 이메일 인증, 약관 동의
+  - Welcome: 헤더, 히어로, 푸터
+  - Feedback: 점수 카드, 개선안, 상세 모달
+  - User: 프로필 폼, 비밀번호 변경, 피드백 히스토리
+  - Common: Modal, inputs, ErrorMessage, LoadingOverlay
+- **Services (서비스 전체 담당)**
+  - authService, feedbackService, termsService, userService
+  - apiClient, tokenManager
+- **Stores (상태 관리)**
+  - authStore (인증 상태, 사용자 정보, 토큰 관리)
+- **Hooks**
+  - useAuthBootstrap, usePageTitle
+- **Routes**
+  - ProtectedRoute, route.config
 
 **Docs/Collaboration:**
-- 40개 이상 기술 문서 작성 및 관리
+- 105개 마크다운 문서 작성 및 관리
 - Discord/Jira/GitHub 워크플로우 관리
 - Git 브랜치 전략 수립
 - 문서 작성 표준 및 템플릿 정의
@@ -556,14 +578,30 @@ Frontend: 피드백 화면 표시
 **GitHub**: https://github.com/minee0505
 
 **Backend:**
-- WebSocket 실시간 통신 구현
-- 세션 관리 및 동시성 제어
-- GPT-4o Realtime API Ephemeral Key 발급
-- STT 데이터 DB 저장 및 대화 히스토리 관리
+- **시나리오 관리 (`domain/scenario/`) 일부**
+  - Scenario 엔티티
+  - ScenarioInitializer
+- **세션 관리 (`domain/session/`) 일부**
+  - TranscriptController, TranscriptService
+  - Transcript 엔티티
+- **WebSocket 실시간 통신**
+  - WebSocket 설정 및 핸들러
+- **STT 데이터 관리**
+  - STT 데이터 DB 저장 및 대화 히스토리 관리
 
 **Frontend:**
-- 기본 시나리오 선택 화면 구현
-- 커스텀 시나리오 생성 화면 구현
+- **Pages (페이지)**
+  - Scenario: ScenarioListPage (시나리오 선택 화면), CreateScenarioPage (커스텀 시나리오 생성 화면)
+- **Components (컴포넌트)**
+  - Header: AppHeader (공동 작업)
+- **Stores (상태 관리)**
+  - scenarioStore.js (시나리오 목록 및 선택 상태)
+  - authStore.js (공동 작업)
+- **Layouts**
+  - AppLayout (공동 작업)
+- **기타**
+  - AiTest.jsx (공동 작업)
+  - main.jsx (공동 작업)
 
 **Infra:**
 - AWS 배포 아키텍처 설계 및 구축
@@ -578,17 +616,40 @@ Frontend: 피드백 화면 표시
 **GitHub**: https://github.com/dohee-jin
 
 **Backend:**
-- 시나리오 생성, 조회, 삭제 API 구현
-- GPT Realtime API Ephemeral Key 발급 컨트롤러 구현
-- WebSocket 핸들러 구현
-- 실시간 음성 분석 (WPM, 추임새)
+- **시나리오 관리 (`domain/scenario/`)**
+  - ScenarioController, ScenarioService, ScenarioRepository
+  - 시나리오 생성, 조회, 삭제 API
+  - ScenarioInitializer (6개 기본 시나리오)
+- **세션 관리 (`domain/session/`)**
+  - DialogueSessionController, DialogueSession, Transcript
+  - 세션 생성, 조회, 상태 관리
+  - TranscriptController, TranscriptService
+- **실시간 음성 분석**
+  - 발화 속도 계산 (WPM)
+  - 추임새 감지
+- **GPT Realtime API 연동**
+  - Ephemeral Key 발급 컨트롤러
+  - WebSocket 핸들러
 
 **Frontend:**
-- AI 대화 화면 구현
-- GPT Realtime API WebRTC 연결 구현
-- GPT Realtime API 음성 전송 제어
-- 실시간 STT 데이터 WebSocket 전송 구현
-- 실시간 피드백 UI
+- **Pages (페이지)**
+  - Dialogue: DialoguePage (AI 대화 화면)
+  - Scenario: ScenarioListPage (시나리오 선택 화면), CreateScenarioPage (커스텀 시나리오 생성 화면)
+- **Hooks**
+  - useRealtimeSession.js (GPT Realtime API WebRTC 연결, 음성 송수신, VAD 처리)
+- **Stores (상태 관리)**
+  - scenarioStore.js (시나리오 목록 및 선택 상태)
+  - sessionStore.js (대화 세션 관리)
+- **Services**
+  - api.js (API 호출 유틸리티)
+- **Components (컴포넌트)**
+  - Header: AppHeader (공동 작업)
+- **Layouts**
+  - AppLayout (공동 작업)
+- **기타**
+  - audio-processor.js (음성 처리)
+  - AiTest.jsx (GPT Realtime API 테스트)
+  - main.jsx (공동 작업)
 
 **Docs:**
 - 회의록 작성
