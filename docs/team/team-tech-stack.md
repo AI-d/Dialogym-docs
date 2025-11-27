@@ -41,98 +41,117 @@
 ## 왕택준 담당 영역
 
 ### 역할
-**Product Owner / Tech Lead / 인증·AI 담당**
+**Product Owner / Tech Lead / PM / Documentation Manager / Fullstack Developer (Backend 주력, Frontend 보조)**
 
 ### 백엔드 기능
 
-**1. 인증/인가 시스템**
-- JWT 기반 회원가입 API (`POST /api/auth/signup`)
-- 로그인 API (`POST /api/auth/login`)
-- JWT 토큰 발급 및 검증
-- Spring Security 설정
-- User 엔티티 및 Repository
+**1. 인증/인가 시스템 (`global/security/`)**
+- JWT 토큰 생성 및 검증 (JwtTokenProvider)
+- JWT 인증 필터 (JwtAuthenticationFilter)
+- OAuth2 로그인 성공 핸들러 (OAuth2AuthenticationSuccessHandler)
+- 인증 실패 핸들러 (JwtAuthenticationEntryPoint, JwtAccessDeniedHandler)
+- Rate Limiting 필터 (RefreshRateLimitFilter)
+- Spring Security 전체 설정 (SecurityConfig)
+- 사용자 인증 정보 관리 (CustomUserDetails, CustomUserDetailsService)
 
-**2. 세션 관리**
-- 대화 세션 시작 API (`POST /api/dialogues/start`)
-- sessionId 생성 (UUID)
-- DialogueSession 엔티티 생명주기 관리
-- 시나리오/프로필 정보 조회 및 반환
+**2. 사용자 관리 (`domain/user/`)**
+- 회원가입 (로컬, 소셜)
+- 로그인 (로컬, 소셜)
+- 토큰 갱신 (Refresh Token Rotation)
+- 로그아웃
+- 프로필 조회/수정
+- 비밀번호 변경
 
-**3. 피드백 생성**
-- 피드백 저장 API (`POST /api/feedback/save`)
-- GPT-4 API 호출 (점수 계산)
-  - 공손도 (politeness: 1~10)
-  - 명료성 (clarity: 1~10)
-- 개선안 3가지 생성 (짧게/공손/따뜻)
-- Feedback 엔티티 저장
+**3. 이메일 인증 (`domain/verification/`)**
+- 이메일 인증 코드 발송
+- 인증 코드 검증
+- 인증 코드 재발송
+- 소셜 회원가입 완료 처리
 
-**4. 히스토리 관리**
-- 히스토리 목록 API (`GET /api/history`)
-- 성장 통계 API (`GET /api/history/stats`)
-- History 엔티티 관리
+**4. 약관 관리 (`domain/terms/`)**
+- 약관 조회 및 동의 처리
+- 약관 버전 관리
+- 사용자별 동의 이력 관리
 
-### AI/프롬프트
+**5. AI 피드백 시스템 (`domain/feedback/`)**
+- AI 기반 대화 분석 (FeedbackService, FeedbackPromptService)
+- Spring AI + GPT-4 연동
+- 종합 점수 산출 (발화 속도, 추임새, 공손도, 명료성)
+- 문장별 분석 및 개선안 생성
+- 피드백 히스토리 및 통계
 
-**1. 시나리오 프롬프트 작성 (6개)**
-- "상사 보고" 시나리오
-- "면접 연습" 시나리오
-- "연인 갈등" 시나리오
-- "부모님 연락" 시나리오
-- "동료 협업" 시나리오
-- "교사-학부모" 시나리오
-
-**2. GPT-4o Voice 선택**
-- 시나리오별 최적 Voice 파라미터 선택
-- 말투, 성격, 대화 규칙 정의
-
-**3. 점수화 로직**
-- 발화 속도 점수 계산 (30점)
-- 추임새 점수 계산 (20점)
-- 공손도 점수 계산 (25점)
-- 명료성 점수 계산 (25점)
-- 종합 점수 산출 알고리즘 (0~100점)
+**6. 공통 기능 (`global/`)**
+- 예외 처리 (TrainException, GlobalExceptionHandler)
+- 공통 응답 포맷 (ApiResponse)
+- 유틸리티 (CookieUtil, LogMaskingUtil, ErrorResponseWriter)
+- 설정 관리 (JwtProperties, CorsProperties, CookieProperties)
+- 스케줄러 (DataCleanupScheduler)
 
 ### 프론트엔드
 
-**1. 로그인/회원가입 화면**
-- 로그인 폼 UI
-- 회원가입 폼 UI
-- JWT 토큰 저장 (localStorage)
+**담당 페이지**: 웰컴, 회원가입, 로그인, 이메일 인증, 피드백, 마이 페이지
 
-**2. 피드백 화면**
-- 점수 대시보드 UI
-- 개선안 카드 UI (3가지 버전)
-- 녹음 파일 재생 컴포넌트
+**1. 상태 관리 (Zustand)**
+- authStore: 인증 상태, 사용자 정보, 토큰 관리
+- 피드백 관련 상태 관리
 
-**3. 히스토리 화면**
-- 히스토리 목록 UI
-- 필터 및 정렬 기능
-- 성장 그래프 (Recharts)
+**2. API 통신 (Axios)**
+- Request Interceptor: JWT 토큰 자동 추가
+- Response Interceptor: 토큰 갱신 자동화 (Promise 재사용 패턴)
+- 에러 핸들링 및 재시도 로직
+
+**3. 라우팅 (React Router)**
+- Public Routes: 웰컴, 로그인, 회원가입, 이메일 인증
+- Protected Routes: 피드백, 마이 페이지
+- OAuth2 Callback 처리
+
+### 문서화
+
+**1. 프로젝트 문서 관리**
+- 40개 이상 기술 문서 작성 (@author 왕택준 표시)
+- 7개 카테고리 (기획, 기술, 협업, 개발, 도구, 회의, 표준화)
+- 문서 작성 표준 및 템플릿 정의
+
+**2. 협업 도구 관리**
+- Discord/Jira/GitHub 워크플로우 관리
+- Git 브랜치 전략 수립
+- PR 템플릿 및 코드 리뷰 가이드 작성
 
 ### 데이터베이스
 
 **담당 테이블**
 - User
-- DialogueSession
+- SocialAccount
+- RefreshToken
+- EmailVerification
+- PendingSocialUser
+- OneTimeCode
+- Terms
+- UserConsent
 - Feedback
-- History
 
 ### 기술 스택
 
 **백엔드**
 - Spring Boot 3.5.5
 - Java 17
-- Spring Security (JWT)
+- Spring Security (JWT, OAuth2)
 - JPA/Hibernate
+- QueryDSL 5.0.0
 - MariaDB
+- Caffeine Cache 3.1.8
+- Bucket4j 8.10.1 (Rate Limiting)
 
 **AI**
+- Spring AI 1.0.0-M4
 - OpenAI GPT-4 API
 - 프롬프트 엔지니어링
 
 **프론트엔드**
 - React 19.1.1
-- Vite 7.1.2
+- Vite 7.1.11
+- Zustand 5.0.8
+- Axios 1.12.2
 - JavaScript ES6+
 
 ---
@@ -140,99 +159,94 @@
 ## 김경민 담당 영역
 
 ### 역할
-**공동 Scrum Master / Fullstack Developer / GPT-4o·인프라 담당**
+**공동 Scrum Master / Fullstack Developer / 세션 관리·인프라 담당**
 
 ### 백엔드 기능
 
-**1. GPT-4o Realtime API 연동**
-- GPT-4o WebSocket 클라이언트 구현
-- 세션 생성 및 프롬프트 전송
-- 실시간 오디오 청크 송수신
-- Base64 인코딩/디코딩
+**1. WebSocket 실시간 통신**
+- WebSocket 설정 및 핸들러 구현
+- 실시간 메시지 전송/수신
 
-**2. 오디오 처리**
-- Opus → PCM 16kHz 변환
-- 리샘플링 로직
-- 100ms 단위 청킹
-- 오디오 포맷 변환 라이브러리 관리
+**2. 세션 관리 (`domain/session/`)**
+- DialogueSession 생성 및 관리
+- 세션 상태 업데이트 (ONGOING, COMPLETED, FAILED)
+- 세션 조회 API
+- 동시성 제어
 
-**3. 녹음 파일 관리**
-- Janus 녹화 플러그인 연동
-- 녹음 파일 생성 (MP3 128kbps)
-- AWS S3 업로드
-- audioUrl 생성 및 반환
+**3. Ephemeral Key 발급**
+- OpenAI Ephemeral Key 발급 API
+- 시나리오 프롬프트 포함
+- GPT-4o Realtime API 세션 생성
 
-### 인프라
-
-**1. 배포 환경 구축**
-- AWS EC2 인스턴스 생성 및 관리
-- 도메인 연결 (dialogym.com)
-- Nginx 설정 (Reverse Proxy, HTTPS)
-- Let's Encrypt 인증서 발급
-
-**2. Docker**
-- Docker Compose 작성
-  - Spring Boot 컨테이너
-  - MariaDB 컨테이너
-  - Redis 컨테이너
-- 멀티 스테이지 빌드
-
-**3. CI/CD**
-- GitHub Actions 워크플로우
-  - 백엔드 빌드 (Gradle)
-  - 프론트엔드 빌드 (Vite)
-  - Docker 이미지 빌드 및 푸시
-- 자동 배포 스크립트
-- 무중단 배포 (Blue-Green)
-
-**4. 데이터베이스**
-- RDS (MariaDB) 생성 및 연결
-- 백업 자동화
-- 성능 튜닝
-
-**5. 모니터링**
-- CloudWatch 대시보드 구성
-- 로그 수집 및 분석
-- 알림 규칙 설정
-  - CPU 사용률 80% 이상
-  - 에러율 5% 이상
-  - 디스크 용량 부족
+**4. STT 데이터 DB 저장 및 대화 히스토리 관리**
+- Transcript 엔티티 저장
+- 대화 내용 DB 저장
 
 ### 프론트엔드
 
-**1. 시나리오 선택 화면 (공동)**
+**담당 페이지**: 기본 시나리오 선택 화면, 커스텀 시나리오 생성 화면
+
+**1. 시나리오 선택 화면**
 - 시나리오 카드 UI
 - API 연동
+- 시나리오 선택 상태 관리
 
-**2. 히스토리 화면 (공동)**
-- 히스토리 목록 UI
-- 그래프 컴포넌트
+**2. 커스텀 시나리오 생성 화면**
+- 시나리오 생성 폼 UI
+- API 연동
 
-### 성능 테스트
+### 인프라
 
-**1. 부하 테스트**
-- JMeter 시나리오 작성
-- 동시 접속 10명 테스트
-- API 응답 시간 측정
+**1. AWS 배포 아키텍처 설계 및 구축**
+- AWS EC2 인스턴스 생성 및 관리
+- 도메인 연결 (dialogym.shop, api.dialogym.shop)
+- Route 53 DNS 설정
+- RDS MariaDB 생성 및 연결
+- 보안 그룹 관리
 
-**2. 최적화**
-- GPT-4o 응답 지연 최소화 (<200ms)
-- 녹음 파일 업로드 속도 개선
-- 데이터베이스 쿼리 최적화
+**2. Docker 컨테이너화**
+- Docker Compose 작성
+  - Spring Boot 컨테이너
+  - MariaDB 컨테이너
+- Dockerfile 최적화
+
+**3. Nginx 리버스 프록시**
+- Nginx 설정 (Reverse Proxy, HTTPS, SSL 종료)
+- Let's Encrypt 인증서 발급 및 자동 갱신
+
+**4. HTTPS 인증서 발급 및 보안 그룹 관리**
+- SSL/TLS 인증서 관리
+- 보안 그룹 설정
+
+**5. CI/CD 구축 (GitHub Actions)**
+- 백엔드 파이프라인: Gradle 빌드 → EC2 배포 → Docker Compose 재시작
+- 프론트엔드 파이프라인: Vite 빌드 → S3 업로드 → CloudFront 캐시 무효화
+- dev 브랜치 자동 배포
+
+**6. S3 + CloudFront 프론트엔드 배포**
+- AWS S3 정적 웹사이트 호스팅
+- CloudFront CDN 설정
+- AWS Certificate Manager (SSL 인증서)
+- 캐시 무효화 자동화
+
+### 데이터베이스
+
+**담당 테이블**
+- DialogueSession
+- Transcript
 
 ### 기술 스택
 
 **백엔드**
 - Spring Boot 3.5.5
 - Java 17
-- WebSocket (OpenAI Realtime API)
-- FFmpeg (오디오 처리)
+- WebSocket
 
 **AI**
 - OpenAI GPT-4o Realtime API
 
 **인프라**
-- AWS (EC2, S3, RDS, CloudWatch)
+- AWS (EC2, S3, CloudFront, RDS, Route 53)
 - Docker & Docker Compose
 - Nginx
 - GitHub Actions
@@ -240,7 +254,7 @@
 
 **프론트엔드**
 - React 19.1.1
-- Vite 7.1.2
+- Vite 7.1.11
 - JavaScript ES6+
 
 ---
@@ -252,64 +266,59 @@
 
 ### 백엔드 기능
 
-**1. 시나리오 관리**
-- 시나리오 목록 API (`GET /api/scenarios`)
-- 시나리오 상세 API (`GET /api/scenarios/{id}`)
+**1. 시나리오 관리 (`domain/scenario/`)**
+- 시나리오 목록 API (`GET /api/v1/scenarios`)
+- 시나리오 상세 API (`GET /api/v1/scenarios/{id}`)
+- 기본 시나리오 조회 (`GET /api/v1/scenarios/default`)
+- 사용자 시나리오 생성/삭제
 - Scenario 엔티티 및 Repository
+- 시나리오 초기화 (6개 기본 시나리오)
 
-**2. WebRTC Signaling 서버**
-- WebSocket 엔드포인트 (`/ws/signaling/{sessionId}`)
-- SDP Offer/Answer 처리
-- ICE Candidates 중계
-- Janus REST API 연동 (Room 생성)
+**2. Ephemeral Key 발급 컨트롤러**
+- GPT-4o Realtime API Ephemeral Key 발급
+- 시나리오 프롬프트 포함
 
-**3. 실시간 음성 분석**
+**3. WebSocket 핸들러**
+- WebSocket 메시지 핸들러
+- 실시간 Transcript 수신
+- 음성 분석 처리
+
+**4. 실시간 음성 분석**
 - 발화 속도 계산 (WPM)
-  - 음성 → 텍스트 변환 (STT)
-  - 단어 수 카운트
+  - Transcript 기반 단어 수 카운트
   - 분당 속도 계산
 - 추임새 감지
   - "음", "어", "그", "저기" 패턴 매칭
   - 빈도 수 카운트
-- 실시간 피드백 WebSocket (`/ws/feedback/{sessionId}`)
-
-**4. Janus Media Server**
-- Janus Docker 설치 및 설정
-- Janus 플러그인 설정 (VideoRoom)
-- STUN/TURN 서버 설정 (Coturn)
+- 실시간 피드백 WebSocket 전송
 
 ### 프론트엔드
 
-**1. 시나리오 선택 화면**
-- 시나리오 카드 그리드 UI
-- 필터링 기능
-- 시나리오 선택 상태 관리
+**담당 페이지**: AI 대화 화면
 
-**2. 대화 화면**
-- WebRTC 클라이언트 구현
+**1. GPT Realtime API WebRTC 연결**
+- WebRTC P2P 클라이언트 구현
   - getUserMedia() (마이크 권한)
-  - RTCPeerConnection 생성
-  - createOffer() 및 SDP 교환
-  - ICE Candidates 처리
-- 마이크 On/Off 버튼
+  - GPT-4o Realtime API WebSocket 연결
+  - Ephemeral Key 기반 인증
+
+**2. 음성 전송 제어**
+- 음성 데이터 전송 관리
+- 음량 시각화 (VAD)
+
+**3. 실시간 STT 데이터 WebSocket 전송**
+- 실시간 자막 표시 (Transcript)
+- WebSocket을 통한 STT 데이터 전송
+
+**4. 실시간 피드백 UI**
 - 대화 타이머
-- 실시간 자막 표시
-- 실시간 피드백 UI
-  - 추임새 알림
-  - 발화 속도 게이지
-- 음량 시각화 (Web Audio API)
+- 추임새 알림
+- 발화 속도 게이지
 
-### QA 및 최적화
+### 문서화
 
-**1. 통합 테스트**
-- E2E 테스트 (전체 시나리오)
-- Cross-browser 테스트
-- 모바일 반응형 확인
-
-**2. 성능 최적화**
-- WebRTC 연결 안정성 개선
-- 실시간 분석 성능 튜닝
-- 프론트엔드 번들 사이즈 최적화
+**회의록 작성**
+- 정기 회의록 작성 및 관리
 
 ### 데이터베이스
 
@@ -323,19 +332,15 @@
 - Spring Boot 3.5.5
 - Java 17
 - WebSocket (STOMP)
-- Janus Media Server
-- Coturn (STUN/TURN)
 
 **프론트엔드**
 - React 19.1.1
-- Vite 7.1.2
+- Vite 7.1.11
 - JavaScript ES6+
 - WebRTC API
 - Web Audio API
-- module.scss
-
-**인프라**
-- Docker (Janus)
+- VAD (Voice Activity Detection)
+- SCSS Modules
 
 ---
 
@@ -396,18 +401,18 @@
 
 **데이터 흐름**
 ```
-김경민: 녹음 파일 S3 업로드
-  → audioUrl 생성
+김경민: 세션 데이터 관리
+  → DialogueSession 엔티티 저장
 진도희: transcript 생성
-  → 대화 내용 텍스트
-→ 왕택준: POST /api/feedback/save
-  → audioUrl, transcript 받아서 피드백 생성
+  → 대화 내용 텍스트 (Transcript 엔티티)
+→ 왕택준: POST /api/v1/feedbacks/sessions/{sessionId}
+  → 세션 데이터 조회하여 피드백 생성
 ```
 
 **협업 내용**
-- API 요청 본문 구조 협의
-- 필수 필드 정의 (sessionId, audioUrl, transcript, wpm, fillerCount)
-- 응답 포맷 협의
+- API 요청/응답 구조 협의
+- 필수 필드 정의 (sessionId, transcript, wpm, fillerCount)
+- 피드백 생성 트리거 시점 협의
 
 ---
 
@@ -417,58 +422,17 @@
 |---------|-------|-------|-------|
 | **백엔드 프레임워크** | Spring Boot | Spring Boot | Spring Boot |
 | **인증/인가** | JWT, Spring Security | - | - |
-| **WebSocket** | - | ☑️ STOMP (Signaling) | ☑️ OpenAI WebSocket |
-| **WebRTC** | - | Janus, STUN/TURN | 오디오 처리 |
+| **WebSocket** | - | ☑️ 메시지 핸들러 | ☑️ Ephemeral Key |
+| **WebRTC** | - | P2P 클라이언트 | - |
 | **AI API** | GPT-4 (점수) | - | GPT-4o Realtime |
-| **오디오 처리** | - | STT, 분석 | Opus/PCM 변환 |
+| **음성 분석** | - | WPM, 추임새 | - |
 | **데이터베이스** | JPA, MariaDB | JPA, MariaDB | RDS 관리 |
 | **프론트엔드** | React (인증, 피드백) | React (WebRTC) | React (히스토리) |
-| **인프라** | - | Janus Docker | AWS, CI/CD |
+| **인프라** | - | - | AWS, Docker, CI/CD |
 | **모니터링** | - | - | CloudWatch |
 | **성능 테스트** | - | E2E 테스트 | 부하 테스트 |
 
 ---
-
-## 기능 복잡도 분석
-
-### 왕택준
-- **높은 난이도**: GPT-4 프롬프트 엔지니어링, 점수화 알고리즘
-- **중간 난이도**: JWT 인증, CRUD API
-- **낮은 난이도**: 기본 React UI
-
-**예상 시간**: 3~4주 (Sprint 2~5 분산)
-
----
-
-### 진도희
-- **높은 난이도**: WebRTC Signaling, Janus 연동, 실시간 분석
-- **중간 난이도**: React 대화 화면
-- **낮은 난이도**: 시나리오 API
-
-**예상 시간**: 3~4주 (Sprint 2~5 집중)
-
----
-
-### 김경민
-- **높은 난이도**: GPT-4o Realtime 연동, 오디오 변환, CI/CD
-- **중간 난이도**: Docker, AWS 배포
-- **낮은 난이도**: S3 업로드
-
-**예상 시간**: 3~4주 (Sprint 2~5 집중)
-
----
-
-## 작업량 균형 검증
-
-| 항목 | 왕택준 | 진도희 | 김경민 |
-|------|-------|-------|-------|
-| **백엔드 API** | 5개 그룹 | 3개 그룹 | 3개 그룹 |
-| **프론트 화면** | 3개 | 2개 | 1개 |
-| **AI/프롬프트** | 6개 시나리오 | - | Voice 최적화 |
-| **인프라** | - | Janus | AWS 전체 |
-| **예상 시간** | 3~4주 | 3~4주 | 3~4주 |
-
-**결론**: 작업량과 난이도가 균형있게 분배되었습니다.
 
 ---
 
