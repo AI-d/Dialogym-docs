@@ -23,9 +23,9 @@
 
 ## 핵심 요약 (Executive Summary)
 
-Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 활용하여 실시간 음성 대화 훈련 플랫폼을 구현합니다.
+Dialogym은 GPT-4o Realtime API와 WebRTC P2P 연결을 핵심 기술로 활용하여 실시간 음성 대화 훈련 플랫폼을 구현합니다.
 6가지 시나리오 기반 역할극, 실시간 음성 분석, 점수화 피드백, 히스토리 관리 기능을 제공하며, React와 Spring Boot 기반으로 개발됩니다.
-5주 개발 일정 내 MVP 완성을 목표로 하며, MoSCoW 방법론으로 기능 우선순위를 관리합니다.
+5주 개발 일정 내 MVP 완성을 목표로 하며, 실제 배포까지 완료했습니다 (https://dialogym.shop).
 
 ---
 
@@ -49,9 +49,19 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 |------|------|------|------|
 | **언어** | JavaScript | ES6+ | 프론트엔드 개발 언어 |
 | **프레임워크** | React | 19.1.1 | UI 라이브러리 |
-| **빌드 도구** | Vite | 7.1.2 | 빠른 개발 서버 및 빌드 |
-| **스타일링** | module.scss | - | 컴포넌트별 스타일 격리 |
+| **빌드 도구** | Vite | 7.1.11 | 빠른 개발 서버 및 빌드 |
+| **라우팅** | React Router DOM | 7.9.4 | 클라이언트 사이드 라우팅 |
+| **상태 관리** | Zustand | 5.0.8 | 경량 전역 상태 관리 |
+| **상태 영속화** | zustand-persist | 0.4.0 | 상태 영속화 |
+| **불변성 관리** | Immer | 10.2.0 | 불변성 관리 |
+| **스타일링** | SASS | 1.92.1 | CSS 전처리기 |
+| **스타일링** | SCSS Modules | - | 컴포넌트별 스타일 격리 |
+| **HTTP 클라이언트** | Axios | 1.12.2 | HTTP 요청 |
 | **통신** | WebRTC | - | 실시간 음성 통신 |
+| **UI 컴포넌트** | Ant Design | 5.27.4 | UI 컴포넌트 라이브러리 |
+| **아이콘** | React Icons | 5.5.0 | 아이콘 라이브러리 |
+| **알림** | React Hot Toast | 2.6.0 | 토스트 알림 |
+| **마크다운** | React Markdown | 10.1.0 | 마크다운 렌더링 |
 
 ---
 
@@ -62,9 +72,22 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 | **언어** | Java | 17 | 백엔드 개발 언어 |
 | **프레임워크** | Spring Boot | 3.5.5 | 웹 애플리케이션 프레임워크 |
 | **ORM** | JPA/Hibernate | - | 데이터베이스 ORM |
-| **데이터베이스** | MariaDB | - | 관계형 데이터베이스 |
-| **캐시** | Redis | - | 세션 캐시 |
-| **인증** | JWT | - | 토큰 기반 인증 |
+| **데이터베이스** | MariaDB | 10.x | 관계형 데이터베이스 |
+| **캐시** | Caffeine | 3.1.8 | 고성능 인메모리 캐시 |
+| **인증** | JWT | 0.12.3 | 토큰 기반 인증 |
+| **보안** | Spring Security | - | 인증/인가 프레임워크 |
+| **OAuth2** | Spring OAuth2 Client | - | 소셜 로그인 |
+| **쿼리** | QueryDSL | 5.0.0 | 타입 안전 쿼리 |
+| **쿼리 로깅** | p6spy | 1.9.1 | SQL 쿼리 로깅 |
+| **Rate Limiting** | Bucket4j | 8.10.1 | API 요청 제한 |
+| **AOP** | Spring AOP | - | 관점 지향 프로그래밍 |
+| **이메일** | Spring Mail | - | 이메일 발송 |
+| **템플릿** | Thymeleaf | - | 이메일 템플릿 |
+| **환경 변수** | Spring Dotenv | 4.0.0 | .env 파일 관리 |
+| **모니터링** | Spring Actuator | - | 애플리케이션 모니터링 |
+| **API 문서** | SpringDoc OpenAPI | 2.8.13 | Swagger UI 자동 생성 |
+| **개발 도구** | Spring DevTools | - | 개발 편의 기능 |
+| **코드 생성** | Lombok | - | 보일러플레이트 코드 제거 |
 
 ---
 
@@ -72,10 +95,12 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 
 | 구분 | 기술 | 용도 |
 |------|------|------|
-| **음성 대화** | GPT-4o Realtime API | 실시간 음성 대화 (사용자 ↔ AI) |
+| **음성 대화** | GPT-4o Realtime API | 실시간 음성 대화 (사용자 ↔ AI), WebRTC P2P 연결 |
 | **텍스트 분석** | GPT-4 API | 대화 분석 및 점수 계산 |
+| **AI 통합** | Spring AI | 1.0.0-M4 | AI 통합 프레임워크 |
 | **프롬프트** | Custom Prompts | 시나리오별 역할 설정 (6개) |
-| **오디오 처리** | FFmpeg | Opus ↔ PCM 변환, 리샘플링 |
+| **음성 활동 감지** | @ricky0123/vad-react | 0.0.34 | React용 음성 활동 감지 |
+| **음성 활동 감지** | @ricky0123/vad-web | 0.0.28 | 웹 기반 음성 활동 감지 |
 
 ---
 
@@ -83,12 +108,27 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 
 | 구분 | 기술 | 용도 |
 |------|------|------|
-| **미디어 서버** | Janus Media Server | WebRTC 미디어 처리 |
-| **컨테이너** | Docker | 개발 환경 통일 |
+| **컨테이너** | Docker + Docker Compose | 개발 환경 통일 및 배포 |
 | **CI/CD** | GitHub Actions | 자동 빌드 및 배포 |
-| **웹 서버** | Nginx | 리버스 프록시, HTTPS |
-| **클라우드** | AWS (EC2, S3, RDS) | 서버 호스팅, 파일 저장 |
-| **STUN/TURN** | Coturn | NAT 통과 지원 |
+| **웹 서버** | Nginx | 리버스 프록시, HTTPS, SSL 종료 |
+| **클라우드** | AWS (EC2, S3, CloudFront, RDS) | 서버 호스팅, 정적 파일, CDN, 데이터베이스 |
+| **도메인** | Route 53 | DNS 관리 |
+| **SSL/TLS** | Let's Encrypt + AWS Certificate Manager | 무료 인증서 |
+| **협업 도구** | Discord + Jira + GitHub | 커뮤니케이션 및 이슈 관리 |
+
+---
+
+### 테스트 및 개발 도구
+
+| 구분 | 기술 | 버전 | 용도 |
+|------|------|------|------|
+| **테스트 프레임워크** | JUnit 5 | - | 백엔드 단위 테스트 |
+| **Mocking** | Mockito | - | 테스트 Mock 객체 |
+| **테스트 DB** | H2 Database | - | 인메모리 테스트 DB |
+| **프론트 테스트** | Vitest | 4.0.3 | 프론트엔드 단위 테스트 |
+| **E2E 테스트** | Playwright | 1.56.1 | End-to-End 테스트 |
+| **컴포넌트 개발** | Storybook | 9.1.15 | 컴포넌트 개발 환경 |
+| **린팅** | ESLint | 9.33.0 | 코드 린팅 |
 
 ---
 
@@ -97,15 +137,24 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 ### 1. 회원 관리
 
 **기능:**
-- 회원가입 (이메일, 비밀번호)
-- 로그인 (JWT 토큰 발급)
+- 회원가입 (이메일, 비밀번호, 약관 동의)
+- 소셜 로그인 (Google, Kakao, Naver)
+- 이메일 인증 (6자리 코드)
+- 로그인 (JWT 토큰 발급: Access + Refresh)
 - 로그아웃
-- 프로필 조회
+- 토큰 갱신 (Refresh Token Rotation)
+- 프로필 조회 및 수정
+- 비밀번호 변경
 
 **API:**
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `GET /api/users/me`
+- `POST /api/v1/users/signup`
+- `POST /api/v1/users/login`
+- `POST /api/v1/users/logout`
+- `POST /api/v1/users/refresh`
+- `POST /api/v1/users/token/exchange` (소셜 로그인)
+- `GET /api/v1/users/profile`
+- `PUT /api/v1/users/profile`
+- `PUT /api/v1/users/password`
 
 **담당:**
 - 백엔드: 왕택준
@@ -116,19 +165,25 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 ### 2. 시나리오 관리
 
 **기능:**
-- 시나리오 목록 조회
+- 시나리오 목록 조회 (전체/기본/사용자 생성)
 - 시나리오 상세 조회
-- 6가지 시나리오 제공
-  1. 상사 보고
-  2. 면접 연습
-  3. 연인 갈등
-  4. 부모님 연락
-  5. 동료 협업
-  6. 교사-학부모
+- 커스텀 시나리오 생성
+- 사용자 시나리오 삭제
+- 6가지 기본 시나리오 제공
+  1. 상사에게 휴가 요청하기
+  2. 부모님께 여행 요청하기
+  3. 친구에게 모임 제안하기
+  4. 식당 예약 요청하기
+  5. 동료에게 프로젝트 협조 요청하기
+  6. 연인에게 중요한 대화 요청하기
 
 **API:**
-- `GET /api/scenarios`
-- `GET /api/scenarios/{id}`
+- `GET /api/v1/scenarios` (전체 조회)
+- `GET /api/v1/scenarios/default` (기본 시나리오)
+- `GET /api/v1/scenarios/{id}` (상세 조회)
+- `POST /api/v1/scenarios` (사용자 생성)
+- `GET /api/v1/scenarios/me/{userId}` (사용자 시나리오 목록)
+- `DELETE /api/v1/scenarios/me/{userId}/{id}` (삭제)
 
 **담당:**
 - 백엔드: 진도희
@@ -139,63 +194,41 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 ### 3. 대화 세션 관리
 
 **기능:**
-- 대화 세션 시작 (sessionId 생성)
-- 시나리오 프롬프트 전달
-- 세션 상태 관리 (ACTIVE, COMPLETED)
+- 대화 세션 생성 (sessionId 생성: UUID)
+- 세션 상태 조회
+- 세션 종료 (정상/실패)
+- 세션 상태 관리 (ONGOING, COMPLETED, FAILED)
 
 **API:**
-- `POST /api/dialogues/start`
+- `POST /api/v1/sessions` (세션 생성)
+- `GET /api/v1/sessions/{sessionId}` (세션 조회)
+- `PUT /api/v1/sessions/{sessionId}/complete` (정상 종료)
+- `PUT /api/v1/sessions/{sessionId}/fail` (실패 처리)
 
 **담당:**
-- 백엔드: 왕택준
+- 백엔드: 김경민
 
 ---
 
-### 4. WebRTC 실시간 음성 대화
+### 4. Ephemeral Key 발급 및 실시간 대화
 
 **기능:**
-- WebRTC Signaling (SDP Offer/Answer, ICE Candidates)
-- 실시간 음성 송수신
-- Janus Media Server 연동
-- 마이크 On/Off 제어
+- OpenAI Ephemeral Key 발급
+- 시나리오 프롬프트 포함
+- WebRTC P2P 연결 (프론트엔드 ↔ GPT-4o)
+- 실시간 음성 스트리밍
+- STT (Speech-to-Text) 실시간 변환
 
-**구현:**
-- 프론트엔드: WebRTC 클라이언트
-- 백엔드: WebSocket Signaling 서버
+**API:**
+- `POST /api/v1/realtime/session` (Ephemeral Key 발급)
 
 **담당:**
+- 백엔드: 김경민
 - 프론트엔드: 진도희
-- 백엔드: 진도희
 
 ---
 
-### 5. GPT-4o Realtime 연동
-
-**기능:**
-- GPT-4o Realtime API WebSocket 연결
-- 세션 생성 및 프롬프트 전송
-- 실시간 오디오 청크 송수신
-- Base64 인코딩/디코딩
-
-**담당:**
-- 백엔드: 김경민
-
----
-
-### 6. 오디오 변환
-
-**기능:**
-- Opus → PCM 16kHz 변환
-- PCM → Opus 변환
-- 리샘플링
-- 100ms 단위 청킹
-
-**담당:**
-- 백엔드: 김경민
-
----
-
-### 7. 실시간 음성 분석
+### 5. 실시간 음성 분석
 
 **기능:**
 - 발화 속도 계산 (WPM - Words Per Minute)
@@ -207,23 +240,7 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 
 ---
 
-### 8. 녹음 저장
-
-**기능:**
-- Janus 녹화 플러그인 활용
-- 녹음 파일 생성 (MP3 128kbps)
-- AWS S3 업로드
-- audioUrl 생성
-
-**API:**
-- 자동 처리 (대화 종료 시)
-
-**담당:**
-- 백엔드: 김경민
-
----
-
-### 9. 피드백 생성
+### 6. 피드백 생성
 
 **기능:**
 - GPT-4 API 호출 (점수 계산)
@@ -240,28 +257,65 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
   - 따뜻하게
 
 **API:**
-- `POST /api/feedback/save`
+- `POST /api/v1/feedbacks/sessions/{sessionId}` (AI 피드백 생성)
+- `GET /api/v1/feedbacks/{sessionId}` (피드백 조회)
+- `PUT /api/v1/feedbacks/{sessionId}/choice` (개선안 선택)
 
 **담당:**
 - 백엔드: 왕택준
 
 ---
 
-### 10. 히스토리 관리
+### 7. 히스토리 관리
 
 **기능:**
-- 히스토리 목록 조회 (필터, 정렬)
-- 히스토리 상세 조회
-- 성장 통계 (점수 변화 추이)
+- 피드백 히스토리 조회 (페이징)
+- 전체 히스토리 조회
+- 성장 통계 (점수 변화 추이, 평균, 등급 분포)
 
 **API:**
-- `GET /api/history`
-- `GET /api/history/{id}`
-- `GET /api/history/stats`
+- `GET /api/v1/feedbacks/users/{userId}/history` (페이징)
+- `GET /api/v1/feedbacks/users/{userId}/history/all` (전체)
+- `GET /api/v1/feedbacks/users/{userId}/stats` (통계)
 
 **담당:**
 - 백엔드: 왕택준
-- 프론트엔드: 김경민
+- 프론트엔드: 왕택준
+
+---
+
+### 8. 이메일 인증
+
+**기능:**
+- 이메일 인증 코드 발송 (6자리)
+- 인증 코드 검증
+- 인증 코드 재발송
+- 소셜 회원가입 완료
+
+**API:**
+- `POST /api/v1/verification/email` (인증 확인)
+- `POST /api/v1/verification/email/resend` (재발송)
+- `POST /api/v1/verification/social/complete` (소셜 회원가입 완료)
+
+**담당:**
+- 백엔드: 왕택준
+
+---
+
+### 9. 약관 관리
+
+**기능:**
+- 활성 약관 목록 조회
+- 사용자 약관 동의 내역 조회
+- 약관 동의 상태 변경
+
+**API:**
+- `GET /api/v1/terms` (활성 약관)
+- `GET /api/v1/terms/consent` (내 동의 내역)
+- `PUT /api/v1/terms/consent` (동의 변경)
+
+**담당:**
+- 백엔드: 왕택준
 
 ---
 
@@ -276,22 +330,29 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
    - 6가지 시나리오 목록 및 상세
 
 3. **실시간 음성 대화**
-   - WebRTC + Janus
+   - WebRTC P2P 연결
    - GPT-4o Realtime API
+   - Ephemeral Key 발급
 
 4. **음성 분석**
    - 발화 속도 (WPM)
    - 추임새 감지
+   - 실시간 STT
 
 5. **피드백 생성**
    - 점수화 (0~100)
    - 개선안 3가지
+   - 개선안 선택 기능
 
-6. **녹음 저장**
-   - S3 업로드
+6. **히스토리 저장**
+   - 피드백 히스토리
+   - 성장 통계
 
-7. **히스토리 저장**
-   - 과거 대화 기록
+7. **이메일 인증**
+   - 6자리 코드 발송/검증
+
+8. **약관 관리**
+   - 약관 동의 관리
 
 ---
 
@@ -356,17 +417,33 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 
 ```
 [사용자]
-   ↓ (브라우저)
-[React Frontend]
-   ↓ (WebRTC)
-[Janus Media Server]
-   ↓ (오디오)
-[Spring Boot Backend]
-   ├─ [GPT-4o Realtime API] (실시간 대화)
-   ├─ [GPT-4 API] (피드백 생성)
-   ├─ [MariaDB] (데이터 저장)
-   ├─ [Redis] (세션 캐시)
-   └─ [AWS S3] (녹음 파일)
+   ↓ (HTTPS)
+[CloudFront CDN]
+   ↓
+[S3 Static Hosting] ← React Frontend (SPA)
+   ↓ (HTTPS REST API + WebSocket)
+[Route 53 DNS]
+   ↓
+[EC2 + Nginx]
+   ↓
+[Docker Container]
+   └─ [Spring Boot Backend]
+       │
+       ├─ [도메인 계층]
+       │   ├─ User (사용자 관리)
+       │   ├─ Verification (이메일 인증)
+       │   ├─ Terms (약관 관리)
+       │   ├─ Scenario (시나리오 관리)
+       │   ├─ Session (대화 세션 관리)
+       │   └─ Feedback (피드백 관리)
+       │
+       ├─ [외부 API]
+       │   ├─ GPT-4o Realtime API (실시간 음성 대화)
+       │   └─ GPT-4 API (피드백 생성)
+       │
+       └─ [데이터 계층]
+           ├─ MariaDB (영구 데이터)
+           └─ Caffeine Cache (세션 캐시)
 ```
 
 ---
@@ -378,69 +455,60 @@ Dialogym은 GPT-4o Realtime API, WebRTC, Janus Media Server를 핵심 기술로 
 ```
 사용자: 시나리오 선택
    ↓
-Frontend: POST /api/dialogues/start
+Frontend: POST /api/v1/sessions
+   - userId, scenarioId
    ↓
-Backend: sessionId 생성, 시나리오 프롬프트 전달
+Backend: sessionId 생성 (UUID)
    ↓
-Frontend: WebRTC 연결 시작
+Frontend: POST /api/v1/realtime/session
+   - sessionId, model, voice, sttModel
    ↓
-Janus: Room 생성
+Backend: 시나리오 프롬프트 생성
    ↓
-Backend: GPT-4o 세션 시작
+Backend: OpenAI Ephemeral Key 발급
+   ↓
+Frontend: WebRTC P2P 연결 시작
 ```
 
 #### 2. 실시간 대화
 
 ```
 사용자 음성 (마이크)
-   ↓ WebRTC
+   ↓ WebRTC P2P
 Frontend
-   ↓
-Janus Media Server
-   ↓ Opus
-Backend (오디오 변환)
-   ↓ PCM 16kHz
-GPT-4o Realtime API
-   ↓ PCM 16kHz
-Backend (오디오 변환)
-   ↓ Opus
-Janus Media Server
-   ↓ WebRTC
-Frontend
-   ↓
-사용자 (스피커)
-```
-
-#### 3. 실시간 분석
-
-```
-대화 중 (백엔드)
-   ↓
-STT (Speech-to-Text)
-   ↓
-발화 속도 계산 (WPM)
-추임새 감지 (패턴 매칭)
    ↓ WebSocket
+GPT-4o Realtime API
+   ↓ Audio Response
+Frontend
+   ↓ WebRTC P2P
+사용자 (스피커)
+
+동시에:
+GPT-4o Realtime API
+   ↓ Transcript (STT)
+Backend (WebSocket Handler)
+   ↓ 음성 분석 (WPM, 추임새)
 Frontend (실시간 피드백 표시)
 ```
 
-#### 4. 대화 종료 및 피드백
+#### 3. 대화 종료 및 피드백
 
 ```
 사용자: 대화 종료 버튼 클릭
    ↓
-Backend: 녹음 파일 S3 업로드
+Frontend: PUT /api/v1/sessions/{sessionId}/complete
    ↓
-Backend: POST /api/feedback/save
-   - transcript
-   - audioUrl
-   - wpm, fillerCount
+Frontend: POST /api/v1/feedbacks/sessions/{sessionId}
+   ↓
+Backend: 세션 데이터 조회
+   - transcript, wpm, fillerCount
    ↓
 Backend: GPT-4 API 호출 (점수 계산)
+   - 공손도, 명료성
    ↓
 Backend: 개선안 3가지 생성
    ↓
-Backend: Feedback 저장
+Backend: Feedback 저장 (DB)
    ↓
 Frontend: 피드백 화면 표시
 ```
@@ -449,155 +517,183 @@ Frontend: 피드백 화면 표시
 
 ## 팀원별 담당 영역
 
-### 왕택준 (PO/Tech Lead, Fullstack Developer)
+### 왕택준 (PO/Tech Lead/PM/Documentation Manager, Fullstack Developer)
+**GitHub**: https://github.com/TJK98
 
-**백엔드:**
-- 인증/인가 (JWT)
-- 세션 관리 (POST /api/dialogues/start)
-- 피드백 생성 (POST /api/feedback/save)
-- 히스토리 관리 (GET /api/history)
+**Backend:**
+- JWT 기반 인증 시스템 구축
+  - JWT 토큰 생성 및 검증 (JwtTokenProvider)
+  - JWT 인증 필터 (JwtAuthenticationFilter)
+  - Refresh Token Rotation (RTR)
+  - Rate Limiting (RefreshRateLimitFilter)
+- OAuth2 소셜 로그인 (Google/Kakao/Naver)
+  - OAuth2 로그인 성공 핸들러
+  - 일회용 코드 방식 구현
+- 이메일 인증 (6자리 코드 발송/검증)
+- 약관 관리 API
+- AI 피드백 생성
+  - 전체 대화 평가
+  - 문장별 분석
+  - 개선안 3개 생성 (간결/공손/따뜻)
+- 피드백 히스토리 및 성장 통계 API
+- 공통 기능 (예외 처리, 유틸리티, 스케줄러)
 
-**AI/프롬프트:**
-- 시나리오 프롬프트 6개 작성
-- GPT-4 점수화 프롬프트
-- Voice 파라미터 선택
+**Frontend:**
+- 웰컴, 회원가입, 로그인, 이메일 인증 화면 구현
+- 피드백, 마이 페이지 화면 구현
+- Zustand 상태 관리 (authStore, 피드백)
+- Axios Interceptor (토큰 갱신 자동화)
 
-**프론트엔드:**
-- 로그인/회원가입 화면
-- 피드백 화면
-- 히스토리 화면
+**Docs/Collaboration:**
+- 40개 이상 기술 문서 작성 및 관리
+- Discord/Jira/GitHub 워크플로우 관리
+- Git 브랜치 전략 수립
+- 문서 작성 표준 및 템플릿 정의
 
 ---
 
 ### 김경민 (공동 SM, Fullstack Developer)
+**GitHub**: https://github.com/minee0505
 
-**백엔드:**
-- GPT-4o Realtime API 연동
-- 오디오 변환 (Opus ↔ PCM)
-- 녹음 파일 저장 (S3)
+**Backend:**
+- WebSocket 실시간 통신 구현
+- 세션 관리 및 동시성 제어
+- GPT-4o Realtime API Ephemeral Key 발급
+- STT 데이터 DB 저장 및 대화 히스토리 관리
 
-**인프라:**
-- AWS (EC2, S3, RDS)
-- Docker Compose
-- Nginx 설정
-- CI/CD (GitHub Actions)
+**Frontend:**
+- 기본 시나리오 선택 화면 구현
+- 커스텀 시나리오 생성 화면 구현
 
-**프론트엔드:**
-- 시나리오 선택 화면 (공동)
-- 히스토리 화면 (공동)
+**Infra:**
+- AWS 배포 아키텍처 설계 및 구축
+- Docker 컨테이너화 및 Nginx 리버스 프록시
+- HTTPS 인증서 발급 및 보안 그룹 관리
+- CI/CD 구축 (GitHub Actions)
+- S3 + CloudFront 프론트엔드 배포
 
 ---
 
 ### 진도희 (공동 SM, Fullstack Developer)
+**GitHub**: https://github.com/dohee-jin
 
-**백엔드:**
-- 시나리오 API (GET /api/scenarios)
-- WebRTC Signaling 서버
-- Janus 연동
+**Backend:**
+- 시나리오 생성, 조회, 삭제 API 구현
+- GPT Realtime API Ephemeral Key 발급 컨트롤러 구현
+- WebSocket 핸들러 구현
 - 실시간 음성 분석 (WPM, 추임새)
 
-**프론트엔드:**
-- 시나리오 선택 화면
-- 대화 화면 (WebRTC 클라이언트)
+**Frontend:**
+- AI 대화 화면 구현
+- GPT Realtime API WebRTC 연결 구현
+- GPT Realtime API 음성 전송 제어
+- 실시간 STT 데이터 WebSocket 전송 구현
 - 실시간 피드백 UI
+
+**Docs:**
+- 회의록 작성
 
 ---
 
 ## 개발 일정
 
-### Sprint 1 (09.29~10.06) - 프로젝트 기반 구축
+### Sprint 1 (09.29 ~ 10.06) - 프로젝트 기반 구축
 
 **완료 항목:**
+- 아이디어 확정
+- 팀 구성 및 기획
+- 팀원 각자 공부 (Spring Boot, React, WebRTC, GPT-4o)
+- 문서 계획 수립
 - 협업 도구 설정 (GitHub, Jira, Discord)
-- 문서 체계 구축 (33개 문서)
-- 기술 스택 확정
-- 아키텍처 설계
+- 배포 환경 구축 (AWS EC2, RDS)
 
 ---
 
-### Sprint 2 (10.06~10.13) - DB 설계 + 배포 검증
+### Sprint 2 (10.06 ~ 10.20) - 백엔드 개발 시작
 
 **왕택준:**
-- ERD 설계
-- JWT 인증 API
-- User 엔티티
+- DB 설계 (ERD)
+- JPA 엔티티 구현 (User, Scenario, Session, Feedback)
+- 회원가입 구현 (로컬 + 이메일 인증)
+- OAuth2 설정 (Google, Kakao, Naver)
+- JWT 인증/인가 시스템
 
 **김경민:**
-- Docker Compose
-- Nginx 설정
-- HTTPS 인증서
-- 배포 환경 검증
+- 보안 통합 파이프라인 구현
+- WebSocket 실시간 통신 구현
+- 세션 관리 및 동시성 제어
 
 **진도희:**
-- Spring Boot 기본 설정
-- Scenario 엔티티
-- 시나리오 API
-- Janus 설치
+- 시나리오 생성, 조회, 삭제 API 구현
+- 시나리오 초기화 (6개 기본 시나리오)
 
 ---
 
-### Sprint 3 (10.13~10.20) - 백엔드 완료 + React 시작
+### Sprint 3 (10.20 ~ 10.27) - 실시간 대화 기능 구축
 
 **왕택준:**
-- 세션 관리 API
-- DialogueSession 엔티티
-- 시나리오 프롬프트 4개 작성
+- 세션 관리 API 완성
+- AI 프롬프트 작성 (6개 시나리오)
 
 **김경민:**
 - GPT-4o Realtime API 연동
-- 오디오 변환 기초
-- React 시나리오 선택 화면
+- Ephemeral Key 발급 컨트롤러 구현
+- STT 데이터 DB 저장 및 대화 히스토리 관리
 
 **진도희:**
-- WebRTC Signaling 서버
-- Janus REST API 연동
-- React 프로젝트 설정
-
----
-
-### Sprint 4 (10.20~10.27) - UI/UX 완성 + Infra
-
-**왕택준:**
-- 피드백 생성 API
-- GPT-4 점수 계산
-- 개선안 3가지 생성
-- 히스토리 API
-- 시나리오 프롬프트 2개 추가
-
-**김경민:**
-- 녹음 파일 S3 업로드
-- CI/CD 구축
-- RDS 설정
-- React 히스토리 화면
-
-**진도희:**
+- GPT Realtime API WebRTC 연결 구현
+- WebSocket 핸들러 구현
 - 실시간 음성 분석 (WPM, 추임새)
-- React 대화 화면 (WebRTC)
-- React 피드백 화면
-- 실시간 피드백 UI
 
 ---
 
-### Sprint 5 (10.27~11.03) - 최적화 + 발표 준비
+### Sprint 4 (10.27 ~ 11.03) - AI 피드백 및 프론트엔드 시작
 
 **왕택준:**
-- 발표 자료 작성 (PPT 30장)
-- 데모 영상 촬영 (3개 시나리오)
-- README 최종 작성
-- API 문서 정리
+- AI 피드백 생성 구현 완료
+  - 전체 대화 평가
+  - 문장별 분석
+  - 개선안 3개 생성 (간결/공손/따뜻)
+- 피드백 히스토리 API
+- 성장 통계 API
 
 **김경민:**
-- 성능 테스트 (동시 접속 10명)
-- GPT-4o 응답 지연 최소화
-- CloudWatch 모니터링
-- 배포 안정화
+- CI/CD 구축 (GitHub Actions)
+- Docker 컨테이너화
+- Nginx 리버스 프록시 설정
+- HTTPS 인증서 발급
 
 **진도희:**
-- E2E 통합 테스트
-- 버그 수정
-- Cross-browser 테스트
-- 모바일 반응형 확인
-- Sprint Retrospective
+- 실시간 STT 데이터 WebSocket 전송 구현
+- 음성 전송 제어 구현
+
+---
+
+### Sprint 5 (11.03 ~ 11.10) - 프론트엔드 개발 및 배포
+
+**왕택준:**
+- React 지식 탐색 및 연습
+- 웰컴, 회원가입, 로그인, 이메일 화면 구현
+- 피드백, 마이 페이지 화면 구현
+
+**김경민:**
+- React 화면 설계
+- 기본 시나리오 선택 화면 구현
+- 커스텀 시나리오 생성 화면 구현
+- AWS 배포 아키텍처 설계 및 구축
+- S3 + CloudFront 프론트엔드 배포
+
+**진도희:**
+- AI 대화 화면 구현
+- GPT Realtime API WebRTC 연결 (프론트엔드)
+- GPT Realtime API 음성 전송 제어
+- 실시간 STT 표시
+- 회의록 작성
+
+**전체:**
+- 배포 준비 및 최종 배포
+- 발표 자료 작성
+- 발표 및 데모
 
 ---
 
