@@ -1,6 +1,6 @@
 # Dialogym 프론트엔드 인증/보안 시스템 설계
 
-**담당자 (Author)**: [Frontend Team](https://github.com/TJK98)
+**담당자 (Author)**: [왕택준](https://github.com/TJK98)
 
 **검토자 (Reviewer / PO·SM)**: [왕택준](https://github.com/TJK98)
 
